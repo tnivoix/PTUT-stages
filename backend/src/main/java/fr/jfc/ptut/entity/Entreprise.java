@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.*;
@@ -14,7 +13,7 @@ import lombok.*;
 // cf. https://examples.javacodegeeks.com/spring-boot-with-lombok/
 @Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
 @Entity // Une entité JPA
-public class Role {
+public class Entreprise {
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
 
@@ -22,8 +21,19 @@ public class Role {
     @NonNull
     private String nom;
 
-    @OneToMany(mappedBy="role")
+    @Column(unique=true)
+    @NonNull
+    private String numTel;
+
+    @Column(unique=true)
+    @NonNull
+    private String email;
+
+    @NonNull
+    private String secteurActivite;
+
+    @OneToMany(mappedBy="entreprise")
     @ToString.Exclude 
-    @JsonIgnoreProperties({ "role" })
-    private List<Utilisateur> utilisateurs = new ArrayList<>();
+    @JsonIgnoreProperties({ "entreprise" })
+    private List<Stage> stages = new ArrayList<>();
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.*;
@@ -31,17 +30,20 @@ public class Utilisateur {
     @NonNull
     private String nom;
 
+    @Column(unique=true)
     @NonNull
     private String numTel;
 
+    @Column(unique=true)
     @NonNull
     private String email;
 
+    @NonNull
     @ManyToOne(optional = false)
     @JsonIgnoreProperties({ "utilisateurs" })
     private Role role;
 
-    @ManyToMany(optional = true)
+    @ManyToMany(mappedBy = "utilisateurs")
     @JsonIgnoreProperties({ "utilisateurs" })
     private List<Stage> stages = new ArrayList<>();
 }

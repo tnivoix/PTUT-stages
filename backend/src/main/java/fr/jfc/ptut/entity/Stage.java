@@ -1,10 +1,10 @@
 package fr.jfc.ptut.entity;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.*;
@@ -19,7 +19,7 @@ public class Stage {
     private Integer id;
 
     @NonNull
-    private int anneeEtude;
+    private Integer anneeEtude;
 
     @NonNull
     private String adresse;
@@ -40,7 +40,7 @@ public class Stage {
     private String sujet;
 
     @NonNull
-    private String détails;
+    private String details;
 
     @NonNull
     private String activites;
@@ -52,10 +52,10 @@ public class Stage {
     private Date dateDebut;
 
     @NonNull
-    private int duree;
+    private Integer duree;
 
     @NonNull
-    private float remuneration;
+    private Float remuneration;
 
     @NonNull
     private String service;
@@ -75,14 +75,20 @@ public class Stage {
     @NonNull
     private String fonction;
 
-    @ManyToMany(optional = true)
+    @ManyToMany
+    @JoinTable(
+        name = "stage_utilisateur",
+        joinColumns = @JoinColumn(name = "stage_id"),
+        inverseJoinColumns = @JoinColumn(name = "utilisateur_id"))
     @JsonIgnoreProperties({ "stages" })
     private List<Utilisateur> utilisateurs = new ArrayList<>();
 
+    @NonNull
     @ManyToOne(optional = false)
     @JsonIgnoreProperties({ "stages" })
     private EtatStage etatStage;
 
+    @NonNull
     @ManyToOne(optional = false)
     @JsonIgnoreProperties({ "stages" })
     private Entreprise entreprise;
