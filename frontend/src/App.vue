@@ -1,5 +1,7 @@
 <script setup>
 import PageStage from "@/View/PageStage.vue";
+import SignUpForm from "@/components/SignUpForm.vue";
+import SignUpCompany from "@/components/SignUpCompany";
 </script>
 
 <template>
@@ -9,8 +11,10 @@ import PageStage from "@/View/PageStage.vue";
       <router-link to="/about">About</router-link>
       <router-view />
     </div>
+    <SignUpForm/>
+    <SignUpCompany/>
+    <PageStage />
   </div>
- <PageStage />
 </template>
 
 <style>
