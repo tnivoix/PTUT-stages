@@ -44,6 +44,7 @@ public class Utilisateur {
     private Role role;
 
     @ManyToMany(mappedBy = "utilisateurs")
+    @ToString.Exclude
     @JsonIgnoreProperties({ "utilisateurs" })
     private List<Stage> stages = new ArrayList<>();
 }

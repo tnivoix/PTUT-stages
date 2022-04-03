@@ -33,7 +33,7 @@ public class Entreprise {
     private String secteurActivite;
 
     @OneToMany(mappedBy="entreprise")
-    @ToString.Exclude 
+    @ToString.Exclude
     @JsonIgnoreProperties({ "entreprise" })
     private List<Stage> stages = new ArrayList<>();
 }

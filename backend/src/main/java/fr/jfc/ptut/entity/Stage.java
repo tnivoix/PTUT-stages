@@ -1,4 +1,5 @@
 package fr.jfc.ptut.entity;
+
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
@@ -12,10 +13,15 @@ import lombok.*;
 // Un exemple d'entité
 // On utilise Lombok pour auto-générer getter / setter / toString...
 // cf. https://examples.javacodegeeks.com/spring-boot-with-lombok/
-@Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
+@ToString
 @Entity // Une entité JPA
 public class Stage {
-    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NonNull
@@ -76,10 +82,8 @@ public class Stage {
     private String fonction;
 
     @ManyToMany
-    @JoinTable(
-        name = "stage_utilisateur",
-        joinColumns = @JoinColumn(name = "stage_id"),
-        inverseJoinColumns = @JoinColumn(name = "utilisateur_id"))
+    @JoinTable(name = "stage_utilisateur", joinColumns = @JoinColumn(name = "stage_id"), inverseJoinColumns = @JoinColumn(name = "utilisateur_id"))
+    @ToString.Exclude
     @JsonIgnoreProperties({ "stages" })
     private List<Utilisateur> utilisateurs = new ArrayList<>();
 
