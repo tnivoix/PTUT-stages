@@ -1,5 +1,5 @@
 # Un "MonoRepo" avec Spring Boot, vue.js et Bootstrap
-test test test
+
 ## Project setup
 
 ```
@@ -27,6 +27,13 @@ Exécution de l'application "fullstack":
 ```
 mvn --projects backend spring-boot:run
 ```
+
+Faire les deux commandes l'une après l'autre :
+
+```
+mvn clean install && mvn --projects backend spring-boot:run
+```
+
 
 Ouvrir http://localhost:8989/ pour accéder à l'application.
 

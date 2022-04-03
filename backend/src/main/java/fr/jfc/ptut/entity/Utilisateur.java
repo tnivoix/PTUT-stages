@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.*;
@@ -14,22 +13,38 @@ import lombok.*;
 // cf. https://examples.javacodegeeks.com/spring-boot-with-lombok/
 @Getter @Setter @NoArgsConstructor @RequiredArgsConstructor @ToString
 @Entity // Une entité JPA
-public class Country {
+public class Utilisateur {
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
+
     @Column(unique=true)
     @NonNull
-    private String code;   
+    private String identifiant;
+
+    @NonNull
+    private String motDePasse;
+
+    @NonNull
+    private String prenom;
+    
+    @NonNull
+    private String nom;
+
     @Column(unique=true)
     @NonNull
-    private String name;
-    @OneToMany(mappedBy="country")
-    // On ne veut pas inclure la liste des villes dans le toString
-    @ToString.Exclude 
-    // On ne veut pas inclure la liste des villes dans le JSON
-    // @JsonIgnore 
-    // On ne veut pas inclure le pays dans la liste des villes
-    @JsonIgnoreProperties({ "country" }) 
-    // Sinon récursivité infinie    
-    private List<City> cities = new ArrayList<>();
+    private String numTel;
+
+    @Column(unique=true)
+    @NonNull
+    private String email;
+
+    @NonNull
+    @ManyToOne(optional = false)
+    @JsonIgnoreProperties({ "utilisateurs" })
+    private Role role;
+
+    @ManyToMany(mappedBy = "utilisateurs")
+    @ToString.Exclude
+    @JsonIgnoreProperties({ "utilisateurs" })
+    private List<Stage> stages = new ArrayList<>();
 }
