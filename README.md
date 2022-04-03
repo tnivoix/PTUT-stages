@@ -28,6 +28,13 @@ Exécution de l'application "fullstack":
 mvn --projects backend spring-boot:run
 ```
 
+Faire les deux commandes l'une après l'autre :
+
+```
+mvn clean install && mvn --projects backend spring-boot:run
+```
+
+
 Ouvrir http://localhost:8989/ pour accéder à l'application.
 
 ## Utilisation des outils de développement "front-end"
