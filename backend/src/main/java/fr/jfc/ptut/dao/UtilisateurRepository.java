@@ -2,6 +2,7 @@ package fr.jfc.ptut.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -9,6 +10,10 @@ import fr.jfc.ptut.entity.Stage;
 import fr.jfc.ptut.entity.Utilisateur;
 
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
+
+    Optional<Utilisateur> findByUsername(String username);
+	Boolean existsByUsername(String username);
+	Boolean existsByEmail(String email);
 
     default List<Utilisateur> findAllByRole(String role) {
         List<Utilisateur> users = findAll();
