@@ -3,6 +3,19 @@
   <p>Tous les champs doivent être remplis.</p>
   <div class="container mt-3">
     <form @submit.prevent="addInternship">
+      <div class="form-group">
+            <label for="entreprise">Entreprise :</label>
+            <select class="form-control" required="required" v-model="data.internship.entreprise">
+              <option disabled value="0">Choisissez une entreprise</option>
+              <option
+                v-for="entreprise in data.allEntreprises"
+                :key="entreprise.id"
+                :value="entreprise._links.self.href"
+              >
+                {{ entreprise.nom }}
+              </option>
+            </select>
+          </div>
       <div class="mb-3">
         <label for="anneeEtude" class="form-label">Année d'étude :</label>
         <input
@@ -151,9 +164,10 @@
 </template>
 
 <script setup>
-import {reactive} from "vue";
+import {reactive, onMounted} from "vue";
 
 const emptyInternship = {
+  id:"",
   anneeEtude: 0,
   adresse: "",
   ville: "",
@@ -171,11 +185,12 @@ const emptyInternship = {
   horaires: "",
   maitreDeStage: "",
   fonction: "",
-  entreprise: "http://localhost:8989/api/entreprises/1",
+  entreprise: "",
   etatStage: "http://localhost:8989/api/etatStages/1",
 };
 
 const data = reactive({
+  allEntreprises: [],
   internship: {...emptyInternship},
 });
 
@@ -184,6 +199,16 @@ defineExpose({
 });
 
 const emit = defineEmits(["internshipAdded",]);
+
+function fetchEntreprises() {
+  fetch("api/entreprises")
+    .then((response) => response.json())
+    .then((json) => {
+      data.allEntreprises = json._embedded.entreprises;
+      console.log(data.allEntreprises);
+    })
+    .catch((error) => alert(error));
+}
 
 function addInternship() {
   const options = {
@@ -212,5 +237,8 @@ function addInternship() {
       alert(error)});
 }
 
+onMounted(() => {
+  fetchEntreprises(); // On récupère les entreprises (pour le sélecteur d'entreprise)
+});
 
 </script>
