@@ -13,22 +13,22 @@ confimation de mot de passe
   <div class="container mt-3">
     <form @submit.prevent="addUtilisateur">
       <div class="mb-3">
-        <!--<select id="roleSelected" required="required" class="form-control">
+        <select id="roleSelected" required="required" class="form-control">
           <option selected disabled hidden>Choisissez un rôle</option>
           <option
-            v-for="country in data.allRoles"
+            v-for="role in data.allRoles"
             :key="role.id"
-            :value=""
+            :value="role._links.cities.href"
           >
-          {{ role.name }}
+          {{ role.nom }}
           </option>
-        </select>-->
-        <select id="roleSelected" required="required" class="form-control" v-model="data.utilisateur.idRole">
+        </select>
+        <!--<select id="roleSelected" required="required" class="form-control" v-model="data.utilisateur.idRole">
           <option selected disabled hidden>Choisissez un rôle</option>
           <option>Maître de stage</option>
           <option>Etudiant</option>
           <option>Tuteur de stage</option>
-        </select>
+        </select>-->
       </div>
       <div class="mb-3">
         <label for="prenom" class="form-label">Prénom :</label>
@@ -60,10 +60,10 @@ confimation de mot de passe
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, onMounted } from "vue";
 
 
-const emptyutilisateur = {
+const emptyUtilisateur = {
   idRole: "",
   id: "",
   firsName: "",
@@ -76,6 +76,7 @@ const emptyutilisateur = {
 
 const data = reactive({
   utilisateur: {...emptyUtilisateur},
+  allRoles: [],
 });
 
 defineExpose({
@@ -107,4 +108,21 @@ function addUtilisateur() {
     })
     .catch((error) => alert(error));
 }
+
+// Utilise l'API REST auto-générée pour avoir les roles
+function fetchRoles() {
+  fetch("api/roles")
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json._embedded.countries)
+      data.allRoles = json._embedded.roles;
+    })
+    .catch((error) => console.log());
+}
+
+
+// Au chargement du composant
+onMounted(() => {
+  fetchRoles(); // On récupère les villes (pour la table)
+});
 </script>

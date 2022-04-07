@@ -20,10 +20,6 @@
         <label for="email" class="form-label">@email :</label>
         <input class="form-control" required="required" type="email" v-model="data.entreprise.email" />
       </div>
-      <div class="mb-3 mt-3">
-        <label for="login" class="form-label">Description de l'entreprise :</label>
-        <textarea class="form-control" required="required" v-model="data.entreprise.description"/>
-      </div>
       <button type="submit" class="btn btn-primary">S'inscrire</button>
     </form>
   </div>
@@ -38,7 +34,6 @@ const emptyentreprise = {
   nom: "",
   numTel: "",
   email: "",
-  description: "",
   secteur: "",
 };
 

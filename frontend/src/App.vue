@@ -1,7 +1,11 @@
 <script setup>
-import PageStage from "@/View/PageStage.vue";
-import SignUpForm from "@/components/SignUpForm.vue";
-import SignUpCompany from "@/components/SignUpCompany";
+  import PageStage from "@/views/PageStage.vue";
+  import SignUpForm from "@/components/SignUpForm.vue";
+  import SignUpCompany from "@/components/SignUpCompany.vue";
+  import ListUtilisateur from "@/components/ListUtilisateur.vue";
+  import ListEntreprise from "@/components/ListEntreprise.vue";
+  import ListStage from "@/components/ListStage.vue";
+
 </script>
 
 <template>
@@ -13,7 +17,10 @@ import SignUpCompany from "@/components/SignUpCompany";
     </div>
     <SignUpForm/>
     <SignUpCompany/>
-    <PageStage />
+    <ListUtilisateur/>
+    <ListEntreprise/>
+    <ListStage/>
+    <!--<PageStage />-->
   </div>
 </template>
 
