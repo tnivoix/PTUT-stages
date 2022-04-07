@@ -5,7 +5,7 @@
   import ListUtilisateur from "@/components/ListUtilisateur.vue";
   import ListEntreprise from "@/components/ListEntreprise.vue";
   import ListStage from "@/components/ListStage.vue";
-
+  import About from "@/views/About.vue";
 </script>
 
 <template>
