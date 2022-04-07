@@ -13,21 +13,15 @@ confimation de mot de passe
   <div class="container mt-3">
     <form @submit.prevent="addUtilisateur">
       <div class="mb-3">
-        <!--<select id="roleSelected" required="required" class="form-control">
-          <option selected disabled hidden>Choisissez un rôle</option>
+        <select id="roleSelected" required class="form-control" v-model="data.utilisateur.role">
+          <option selected disabled hidden value="">Choisissez un rôle</option>
           <option
-            v-for="country in data.allRoles"
+            v-for="role in data.allRoles"
             :key="role.id"
-            :value=""
+            :value="role._links.self.href"
           >
-          {{ role.name }}
+          {{ role.nom }}
           </option>
-        </select>-->
-        <select id="roleSelected" required="required" class="form-control" v-model="data.utilisateur.idRole">
-          <option selected disabled hidden>Choisissez un rôle</option>
-          <option>Maître de stage</option>
-          <option>Etudiant</option>
-          <option>Tuteur de stage</option>
         </select>
       </div>
       <div class="mb-3">
@@ -40,7 +34,8 @@ confimation de mot de passe
       </div>
       <div class="mb-3">
         <label for="numTel" class="form-label">Numéro de téléphone :</label>
-        <input type="tel" class="form-control" required="required" v-model="data.utilisateur.numTel" />
+        <input type="tel" pattern="[00-99]{2} [00-99]{2} [00-99]{2} [00-99]{2} [0-99]{2}" class="form-control" required="required" v-model="data.utilisateur.numTel" />
+        <small>Format: 05 65 33 76 82</small>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">@email :</label>
@@ -52,7 +47,7 @@ confimation de mot de passe
       </div>
       <div class="mb-3">
         <label for="motDePasse" class="form-label">Mot de passe :</label>
-        <input type="motDePasse" required="required" class="form-control" v-model="data.utilisateur.motDePasse" />
+        <input type="password" required="required" class="form-control" v-model="data.utilisateur.motDePasse" />
       </div>
       <button type="submit" class="btn btn-primary">S'inscrire</button>
     </form>
@@ -60,13 +55,13 @@ confimation de mot de passe
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, onMounted } from "vue";
 
 
-const emptyutilisateur = {
-  idRole: "",
+const emptyUtilisateur = {
+  role: "",
   id: "",
-  firsName: "",
+  prenom: "",
   nom: "",
   numTel: "",
   email: "",
@@ -76,6 +71,7 @@ const emptyutilisateur = {
 
 const data = reactive({
   utilisateur: {...emptyUtilisateur},
+  allRoles: [],
 });
 
 defineExpose({
@@ -83,7 +79,7 @@ defineExpose({
 })
 
 
-const emit = defineEmits(['useurAdded',])
+const emit = defineEmits(['utilisateurAdded',])
 
 function addUtilisateur() {
   const options = {
@@ -103,8 +99,25 @@ function addUtilisateur() {
     })
     .then((json) => {
       data.utilisateur = {...emptyUtilisateur}; // On réinitialise le formulaire
-      emit('utilisateurAdded', json); // On notifie le parent que le pays a été ajouté
+      emit('utilisateurAdded', json); // On notifie le parent que l'utilisateur a été ajouté
     })
     .catch((error) => alert(error));
 }
+
+// Utilise l'API REST auto-générée pour avoir les roles
+function fetchRoles() {
+  fetch("api/roles")
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json._embedded.roles)
+      data.allRoles = json._embedded.roles;
+    })
+    .catch((error) => console.log());
+}
+
+
+// Au chargement du composant
+onMounted(() => {
+  fetchRoles(); // On récupère les roles
+});
 </script>

@@ -79,7 +79,7 @@ onMounted(getEntreprises);
       </thead>
       <tbody>
         <tr v-for="entreprise in data.entreprises" :key="entreprise.id">
-          <td>{{ entreprise.name }}</td>
+          <td>{{ entreprise.nom }}</td>
           <td>{{ entreprise.numTel }}</td>
           <td>{{ entreprise.secteurActivite }}</td>
           <td>{{ entreprise.email }}</td>

@@ -6,7 +6,7 @@
     <form @submit.prevent="addEntreprise">
       <div class="mb-3">
         <label for="secteur" class="form-label">Secteur d'activité :</label>
-        <input class="form-control" required="required" v-model="data.entreprise.secteur" />
+        <input class="form-control" required="required" v-model="data.entreprise.secteurActivite" />
       </div>
       <div class="mb-3">
         <label for="nom" class="form-label">Nom de l'entreprise :</label>
@@ -14,15 +14,12 @@
       </div>
       <div class="mb-3">
         <label for="numTel" class="form-label">Numéro de téléphone :</label>
-        <input type="tel" class="form-control" required="required" v-model="data.entreprise.numTel" />
+        <input type="tel" pattern="[00-99]{2} [00-99]{2} [00-99]{2} [00-99]{2} [0-99]{2}" class="form-control" required="required" v-model="data.entreprise.numTel" />
+        <small>Format: 05 65 33 76 82</small>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">@email :</label>
         <input class="form-control" required="required" type="email" v-model="data.entreprise.email" />
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="login" class="form-label">Description de l'entreprise :</label>
-        <textarea class="form-control" required="required" v-model="data.entreprise.description"/>
       </div>
       <button type="submit" class="btn btn-primary">S'inscrire</button>
     </form>
@@ -38,8 +35,7 @@ const emptyentreprise = {
   nom: "",
   numTel: "",
   email: "",
-  description: "",
-  secteur: "",
+  secteurActivite: "",
 };
 
 const data = reactive({
@@ -62,7 +58,7 @@ function addEntreprise() {
       "Content-Type": "application/json",
     },
   };
-  fetch("api/companies", options)
+  fetch("api/entreprises", options)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);
