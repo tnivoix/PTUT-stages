@@ -4,18 +4,31 @@
   <div class="container mt-3">
     <form @submit.prevent="addInternship">
       <div class="form-group">
-            <label for="entreprise">Entreprise :</label>
-            <select class="form-control" required="required" v-model="data.internship.entreprise">
-              <option disabled value="0">Choisissez une entreprise</option>
-              <option
-                v-for="entreprise in data.allEntreprises"
-                :key="entreprise.id"
-                :value="entreprise._links.self.href"
-              >
-                {{ entreprise.nom }}
-              </option>
-            </select>
-          </div>
+        <label for="entreprise">Entreprise : (sélectionnez)</label>
+        <select
+          id="selectEntreprise"
+          class="form-control"
+          required="required"
+          v-model="data.internship.entreprise"
+        >
+          <option disabled value="0">Choisissez une entreprise</option>
+          <option
+            v-for="entreprise in data.allEntreprises"
+            :key="entreprise.id"
+            :value="entreprise._links.self.href"
+          >
+            {{ entreprise.nom }}
+          </option>
+        </select>
+      </div>
+      <label class="form-label"
+        >Si l'entreprise n'est pas dans la liste, veuillez cliquer afin de créer
+        l'entreprise
+      </label>
+      <button id="togg1" type="button">Créer une nouvelle entreprise</button>
+      <div id="d1" hidden>
+        <SignUpCompany @entrepriseAdded="refreshCompanies"/>
+      </div>
       <div class="mb-3">
         <label for="anneeEtude" class="form-label">Année d'étude :</label>
         <input
@@ -35,11 +48,7 @@
       </div>
       <div class="mb-3">
         <label for="ville" class="form-label">Ville :</label>
-        <input
-          class="form-control"
-          required="required"
-          v-model="data.internship.ville"
-        />
+        <input class="form-control" required="required" v-model="data.internship.ville" />
       </div>
       <div class="mb-3">
         <label for="codePostal" class="form-label">Code Postal :</label>
@@ -51,11 +60,7 @@
       </div>
       <div class="mb-3">
         <label for="pays" class="form-label">Pays :</label>
-        <input
-          class="form-control"
-          required="required"
-          v-model="data.internship.pays"
-        />
+        <input class="form-control" required="required" v-model="data.internship.pays" />
       </div>
       <div class="mb-3">
         <label for="contexte" class="form-label">Contexte :</label>
@@ -67,11 +72,7 @@
       </div>
       <div class="mb-3">
         <label for="sujet" class="form-label">Sujet :</label>
-        <input
-          class="form-control"
-          required="required"
-          v-model="data.internship.sujet"
-        />
+        <input class="form-control" required="required" v-model="data.internship.sujet" />
       </div>
       <div class="mb-3">
         <label for="details" class="form-label">Détails :</label>
@@ -120,7 +121,7 @@
         <input
           class="form-control"
           required="required"
-          type="number" 
+          type="number"
           step="0.01"
           v-model="data.internship.remuneration"
         />
@@ -164,10 +165,12 @@
 </template>
 
 <script setup>
-import {reactive, onMounted} from "vue";
+import { reactive, onMounted } from "vue";
+import SignUpCompany from "./SignUpCompany";
+
 
 const emptyInternship = {
-  id:"",
+  id: "",
   anneeEtude: 0,
   adresse: "",
   ville: "",
@@ -180,7 +183,7 @@ const emptyInternship = {
   competences: "",
   dateDebut: "2022-07-12",
   duree: 0,
-  remuneration: 0.00,
+  remuneration: 0.0,
   service: "",
   horaires: "",
   maitreDeStage: "",
@@ -191,23 +194,30 @@ const emptyInternship = {
 
 const data = reactive({
   allEntreprises: [],
-  internship: {...emptyInternship},
+  internship: { ...emptyInternship },
 });
 
 defineExpose({
   data,
 });
 
-const emit = defineEmits(["internshipAdded",]);
+const emit = defineEmits(["internshipAdded"]);
 
 function fetchEntreprises() {
   fetch("api/entreprises")
     .then((response) => response.json())
     .then((json) => {
       data.allEntreprises = json._embedded.entreprises;
-      console.log(data.allEntreprises);
     })
     .catch((error) => alert(error));
+}
+
+function refreshCompanies(){
+  fetchEntreprises();
+  document.getElementById("d1").hidden = true;
+  console.log(document.getElementById("selectEntreprise").value)
+  console.log(document.getElementById("selectEntreprise").lastElementChild.value)
+  setTimeout(function () {document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value}, 150);
 }
 
 function addInternship() {
@@ -218,7 +228,7 @@ function addInternship() {
       "Content-Type": "application/json",
     },
   };
-  console
+  console;
   fetch("api/stages", options)
     .then((response) => {
       if (!response.ok) {
@@ -228,17 +238,26 @@ function addInternship() {
       return response.json();
     })
     .then((json) => {
-      data.internship = {...emptyInternship}; // On réinitialise le formulaire
+      data.internship = { ...emptyInternship }; // On réinitialise le formulaire
       emit("internshipAdded", json); // On notifie le parent que le stage a été ajouté
-
     })
     .catch((error) => {
-      console.log(error)
-      alert(error)});
+      console.log(error);
+      alert(error);
+    });
+}
+
+function initEntrepriseForm(){
+let togg1 = document.getElementById("togg1");
+let d1 = document.getElementById("d1");
+
+togg1.addEventListener("click", () => { 
+  d1.hidden = !d1.hidden;
+})
 }
 
 onMounted(() => {
   fetchEntreprises(); // On récupère les entreprises (pour le sélecteur d'entreprise)
+  initEntrepriseForm();
 });
-
 </script>
