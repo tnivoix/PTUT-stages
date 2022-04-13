@@ -14,7 +14,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/Inscription">Inscription</router-link> |
-      <router-link to="/InscriptionEntreprise">Inscription entreprise</router-link>
+      <router-link to="/InscriptionEntreprise">Inscription entreprise</router-link> |
+      <router-link to="/Connexion">Connexion</router-link>
       <router-view />
     </div>
   </div>

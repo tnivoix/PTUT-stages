@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import Inscription from "@/views/Inscription.vue";
 import InscriptionEntreprise from "@/views/InscriptionEntreprise.vue";
+import InterfaceConnexion from "@/views/InterfaceConnexion.vue";
 
 const routes = [{
         path: "/",
@@ -26,6 +27,11 @@ const routes = [{
         path: "/InscriptionEntreprise",
         name: "InscriptionEntreprise",
         component: InscriptionEntreprise,
+    },
+    {
+        path: "/Connexion",
+        name: "Connexion",
+        component: InterfaceConnexion,
     },
 
 
