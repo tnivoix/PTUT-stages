@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
-import Countries from "@/views/Countries.vue";
-import Cities from "@/views/Cities.vue";
-import CountryEdit from "@/views/CountryEdit.vue";
-import CityEdit from "@/views/CityEdit.vue";
+import ListDesStages from "@/views/ListDesStages.vue"
+import PageAllStage from "@/views/PageAllStage.vue";
+import InternshipFormPage from "@/views/InternshipFormPage.vue";
+import Inscription from "@/views/Inscription.vue";
+import InscriptionEntreprise from "@/views/InscriptionEntreprise.vue";
+import InterfaceConnexion from "@/views/InterfaceConnexion.vue";
 
 const routes = [{
         path: "/",
@@ -11,24 +13,25 @@ const routes = [{
         component: Home,
     },
     {
-        path: "/countries",
-        name: "Countries",
-        component: Countries,
+        path: "/internshipFormPage",
+        name: "InternshipFormPage",
+        component: InternshipFormPage,
+    },
+
+    {
+        path: "/Inscription",
+        name: "Inscription",
+        component: Inscription,
     },
     {
-        path: "/cities",
-        name: "Cities",
-        component: Cities,
+        path: "/InscriptionEntreprise",
+        name: "InscriptionEntreprise",
+        component: InscriptionEntreprise,
     },
     {
-        path: "/cityEdit",
-        name: "CityEdit",
-        component: CityEdit,
-    },
-    {
-        path: "/countryEdit",
-        name: "CountryEdit",
-        component: CountryEdit,
+        path: "/Connexion",
+        name: "Connexion",
+        component: InterfaceConnexion,
     },
     {
         path: "/about",
@@ -39,6 +42,25 @@ const routes = [{
         component: () =>
             import ( /* webpackChunkName: "about" */ "../views/About.vue"),
     },
+
+    {
+        path: "/listDesStages",
+        name: "ListDesStages",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: ListDesStages,
+    },
+    {
+        path: "/pageAllStage",
+        name: "PageAllStage",
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: PageAllStage,
+    },
+
+
 ];
 
 const router = createRouter({

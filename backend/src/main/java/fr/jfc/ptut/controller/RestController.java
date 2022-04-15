@@ -3,24 +3,16 @@ package fr.jfc.ptut.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
-import fr.jfc.ptut.dao.CityRepository;
-import fr.jfc.ptut.dao.CountryRepository;
-import fr.jfc.ptut.dto.CityForm;
-import fr.jfc.ptut.dto.PopulationResult;
-import fr.jfc.ptut.entity.City;
-import fr.jfc.ptut.entity.Country;
+
+import fr.jfc.ptut.dao.*;
+import fr.jfc.ptut.entity.*;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path = "/api") // This means URL's start with /rest (after Application path)
@@ -28,67 +20,137 @@ import fr.jfc.ptut.entity.Country;
 public class RestController {
 
 	@Autowired
-	private CityRepository cityDao;
-
+	private EntrepriseRepository entrepriseDao;
 	@Autowired
-	private CountryRepository countryDao;
-
+	private EtatStageRepository etatStageDao;
+	@Autowired
+	private RoleRepository roleDao;
+	@Autowired
+	private StageRepository stageDao;
+	@Autowired
+	private UtilisateurRepository utilisateurDao;
 
 	/**
-	 * Enregistre une ville dans la base
-	 * Requête HTTP POST à l'URL http://localhost:8989/rest/saveCity	
-	 * @param laVille la ville à enregistrer, initialisée par Spring à partir des
-	 *                valeurs transmises dans la requête POST
-	 *                Spring fera une requête SQL INSERT ou UPDATE pour enregistrer
-	 *                la ville dans la base
-	 * @return la ville enregistrée (avec sa clé) en format JSON
+	 * Renvoie tous les stages
+	 * @return tous les stages
 	 */
-	@PostMapping(path = "saveCity") 
-	public @ResponseBody City enregistreUneVille(@RequestBody CityForm formData) {
-		log.info("Reçu: {}", formData);
-		Country c = countryDao.findById(formData.getCountry())
-		   .orElseThrow(() -> new IllegalArgumentException("Pays inconnu"));
-		City laVille = new City(formData.getName(), c);
-		laVille.setPopulation(formData.getPopulation());
-		cityDao.save(laVille);
-		log.info("Enregistré: {}", laVille);
-		return laVille;
+	@GetMapping(path = "allInterships") 
+	public @ResponseBody List<Stage> allInterships() {
+		log.info("Renvoie la liste des stages");
+		return stageDao.findAll();
 	}
 
 	/**
-	 * Enregistre un pays dans la base
-	 * Requête HTTP POST à l'URL http://localhost:8989/rest/saveCountry	
-	 * @param lePays  le pays à enregistrer, initialisée par Spring à partir des
-	 *                valeurs  transmises dans la requête POST
-	 *                Spring fera une requête SQL INSERT ou UPDATE pour enregistrer
-	 *                le pays dans la base
-	 * @return le pays enregistré (avec sa clé) en format JSON
+	 * Renvoie tous les stages validés et disponibles
+	 * @return tous les stages dispos
 	 */
-	@PostMapping(path = "saveCountry") 
-	public @ResponseBody Country enregistreUnPays(@RequestBody Country lePays) {
-		log.info("Reçu: {}", lePays);
-		countryDao.save(lePays);
-		log.info("Enregistré: {}", lePays);
-		return lePays;
+	@GetMapping(path = "freeInterships") 
+	public @ResponseBody List<Stage> freeInterships() {
+		log.info("Renvoie la liste des stages dispos");
+		return stageDao.findByIntershipState("Proposition validée");
 	}
 
-	@GetMapping(path = "population") 
-	public @ResponseBody List<PopulationResult> populationParPays() {
-		log.info("Population pour chaque les pays");
-		return countryDao.populationParPaysJPQL();
+	/**
+	 * Renvoie tous les stages terminés
+	 * @return tous les stages terminés
+	 */
+	@GetMapping(path = "achievedInterships") 
+	public @ResponseBody List<Stage> achievedInterships() {
+		log.info("Renvoie la liste des stages terminés");
+		return stageDao.findByIntershipState("Stage terminé");
 	}
 
-	@GetMapping(path = "allCities") 
-	public @ResponseBody List<City> allCities() {
-		log.info("Renvoie la liste des villes");
-		return cityDao.findAll();
+	/**
+	 * Renvoie tous les stages en attente de validation
+	 * @return tous les stages en attente
+	 */
+	@GetMapping(path = "pendingInterships") 
+	public @ResponseBody List<Stage> pendingInterships() {
+		log.info("Renvoie la liste des stages en attente de validation");
+		return stageDao.findByIntershipState("Proposition en attente de validation");
 	}
 
-	@GetMapping(path = "allCountries") 
-	public @ResponseBody List<Country> allCountries() {
-		log.info("Renvoie la liste des pays");
-		return countryDao.findAll();
+	/**
+	 * Renvoie tous les stages en cours de processus
+	 * @return tous les stages en cours
+	 */
+	@GetMapping(path = "inProgressInterships") 
+	public @ResponseBody List<Stage> inProgressInterships() {
+		log.info("Renvoie la liste des stages en cours de processus");
+		return stageDao.inProgressInterships();
 	}
 
+	/**
+	 * Renvoie tous les stages d'un étudiant
+	 * @param idStudent identifiant de l'étudiant
+	 * @return tous les stages de l'étudiant
+	 */
+	@GetMapping(path = "intershipsByStudent/{idStudent}")
+	public @ResponseBody List<Stage> intershipsByStudent(@PathVariable int idStudent) {
+		log.info("Renvoie la liste des stages de l'étudiant idStudent");
+		return utilisateurDao.intershipsByStudent(idStudent);
+	}
+
+	/**
+	 * Renvoie tous les stages d'un tuteur
+	 * @param idTutor identifiant du tuteur
+	 * @return tous les stages du tuteur
+	 */
+	@GetMapping(path = "intershipsByTutor/{idTutor}")
+	public @ResponseBody List<Stage> intershipsByTutor(@PathVariable int idTutor) {
+		log.info("Renvoie la liste des stages du tuteur idTutor");
+		return utilisateurDao.intershipsByTutor(idTutor);
+	}
+
+	/**
+	 * Renvoie tous les stages d'une entreprise
+	 * @param idCompany identifiant de l'entreprise
+	 * @return tous les stages de l'entreprise
+	 */
+	@GetMapping(path = "intershipsByCompany/{idCompany}")
+	public @ResponseBody List<Stage> intershipsByCompany(@PathVariable int idCompany) {
+		log.info("Renvoie la liste des stages de l'entreprise idCompany");
+		return entrepriseDao.intershipsByCompany(idCompany);
+	}
+
+	/**
+	 * Renvoie tous les étudiants
+	 * @return tous les étudiants
+	 */
+	@GetMapping(path = "allStudents") 
+	public @ResponseBody List<Utilisateur> allStudents() {
+		log.info("Renvoie la liste des étudiants");
+		return utilisateurDao.findAllByRole("Étudiant");
+	}
+
+	/**
+	 * Renvoie tous les tuteurs
+	 * @return tous les tuteurs
+	 */
+	@GetMapping(path = "allTutors") 
+	public @ResponseBody List<Utilisateur> allTutors() {
+		log.info("Renvoie la liste des tuteurs");
+		return utilisateurDao.findAllByRole("Tuteur");
+	}
+
+	/**
+	 * Renvoie toutes les entreprises
+	 * @return toutes les entreprises
+	 */
+	@GetMapping(path = "allCompanies") 
+	public @ResponseBody List<Entreprise> allCompanies() {
+		log.info("Renvoie la liste des entreprises");
+		return entrepriseDao.findAll();
+	}
+
+	/**
+	 * Renvoie toutes les entreprises
+	 * @return toutes les entreprises
+	 */
+	@GetMapping(path = "utilisateurByIdentifiant/{identifiant}") 
+	public @ResponseBody Utilisateur findUtilisateurByIdentifiant(@PathVariable String identifiant) {
+		log.info("Renvoie un utilisateur");
+		return utilisateurDao.findByIdentifiant(identifiant).get();
+	}
 
 }
