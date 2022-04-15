@@ -120,7 +120,7 @@ public class RestController {
 	@GetMapping(path = "allStudents") 
 	public @ResponseBody List<Utilisateur> allStudents() {
 		log.info("Renvoie la liste des étudiants");
-		return utilisateurDao.findAllByRole("Étudiant");
+		return utilisateurDao.findAllByRole("ROLE_ETUDIANT");
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class RestController {
 	@GetMapping(path = "allTutors") 
 	public @ResponseBody List<Utilisateur> allTutors() {
 		log.info("Renvoie la liste des tuteurs");
-		return utilisateurDao.findAllByRole("Tuteur");
+		return utilisateurDao.findAllByRole("ROLE_TUTEUR");
 	}
 
 	/**

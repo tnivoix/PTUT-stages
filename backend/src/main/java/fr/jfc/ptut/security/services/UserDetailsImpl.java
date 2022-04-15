@@ -16,7 +16,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	private Long id;
 	private String username;
 	@JsonIgnore
 	private String password;
@@ -27,7 +27,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserDetailsImpl(Integer id, String username, String password, String name, String firstName, String numTel, String email,
+	public UserDetailsImpl(Long id, String username, String password, String name, String firstName, String numTel, String email,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
@@ -43,7 +43,7 @@ public class UserDetailsImpl implements UserDetails {
 		List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getNom()));
 		return new UserDetailsImpl(
-				user.getId(),
+				user.getId().longValue(),
 				user.getIdentifiant(),
 				user.getMotDePasse(),
 				user.getNom(),
@@ -58,7 +58,7 @@ public class UserDetailsImpl implements UserDetails {
 		return authorities;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 

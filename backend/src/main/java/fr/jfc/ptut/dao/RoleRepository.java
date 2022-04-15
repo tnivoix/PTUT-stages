@@ -7,5 +7,5 @@ import fr.jfc.ptut.entity.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    Optional<Role> findByName(String name);
+    Optional<Role> findByNom(String name);
 }
