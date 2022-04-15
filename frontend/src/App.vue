@@ -1,13 +1,5 @@
 <script setup>
-import PageAllStage from "@/views/PageAllStage.vue";
-import ListDesStages from "@/views/ListDesStages.vue";
-  import PageStage from "@/views/PageStage.vue";
-  import SignUpForm from "@/components/SignUpForm.vue";
-  import SignUpCompany from "@/components/SignUpCompany.vue";
-  import ListUtilisateur from "@/components/ListUtilisateur.vue";
-  import ListEntreprise from "@/components/ListEntreprise.vue";
-  import ListStage from "@/components/ListStage.vue";
-  import About from "@/views/About.vue";
+
 </script>
 
 <template>
@@ -34,13 +26,16 @@ import ListDesStages from "@/views/ListDesStages.vue";
   text-align: center;
   color: #2c3e50;
 }
+
 #nav {
   padding: 30px;
 }
+
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
+
 #nav a.router-link-exact-active {
   color: #42b983;
 }
