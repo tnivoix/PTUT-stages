@@ -1,13 +1,5 @@
 <template>
-<!-- 
-identifiant = identifiant; motDePasse = mot de passe; ...
 
-comment récuperer les roles dans la base de donnée ?
-
-changer le "addCountry"
-
-confimation de mot de passe
--->
   <h2>Formulaire d'inscription</h2>
   <p>Tous les champs doivent être remplis.</p>
   <div class="container mt-3">

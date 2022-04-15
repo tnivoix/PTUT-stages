@@ -142,4 +142,15 @@ public class RestController {
 		log.info("Renvoie la liste des entreprises");
 		return entrepriseDao.findAll();
 	}
+
+	/**
+	 * Renvoie toutes les entreprises
+	 * @return toutes les entreprises
+	 */
+	@GetMapping(path = "utilisateurByIdentifiant/{identifiant}") 
+	public @ResponseBody Utilisateur findUtilisateurByIdentifiant(@PathVariable String identifiant) {
+		log.info("Renvoie un utilisateur");
+		return utilisateurDao.findByIdentifiant(identifiant).get();
+	}
+
 }

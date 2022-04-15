@@ -3,6 +3,7 @@ import Home from "@/views/Home.vue";
 import InternshipFormPage from "@/views/InternshipFormPage.vue";
 import Inscription from "@/views/Inscription.vue";
 import InscriptionEntreprise from "@/views/InscriptionEntreprise.vue";
+import InterfaceConnexion from "@/views/InterfaceConnexion.vue";
 
 const routes = [{
         path: "/",
@@ -10,11 +11,11 @@ const routes = [{
         component: Home,
     },
     {
-        path:"/internshipFormPage",
+        path: "/internshipFormPage",
         name: "InternshipFormPage",
         component: InternshipFormPage,
     },
-    
+
     {
         path: "/Inscription",
         name: "Inscription",
@@ -24,6 +25,11 @@ const routes = [{
         path: "/InscriptionEntreprise",
         name: "InscriptionEntreprise",
         component: InscriptionEntreprise,
+    },
+    {
+        path: "/Connexion",
+        name: "Connexion",
+        component: InterfaceConnexion,
     },
     {
         path: "/about",
