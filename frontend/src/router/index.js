@@ -2,11 +2,36 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import ListDesStages from "@/views/ListDesStages.vue"
 import PageAllStage from "@/views/PageAllStage.vue";
+import InternshipFormPage from "@/views/InternshipFormPage.vue";
+import Inscription from "@/views/Inscription.vue";
+import InscriptionEntreprise from "@/views/InscriptionEntreprise.vue";
+import InterfaceConnexion from "@/views/InterfaceConnexion.vue";
 
 const routes = [{
         path: "/",
         name: "Home",
         component: Home,
+    },
+    {
+        path: "/internshipFormPage",
+        name: "InternshipFormPage",
+        component: InternshipFormPage,
+    },
+
+    {
+        path: "/Inscription",
+        name: "Inscription",
+        component: Inscription,
+    },
+    {
+        path: "/InscriptionEntreprise",
+        name: "InscriptionEntreprise",
+        component: InscriptionEntreprise,
+    },
+    {
+        path: "/Connexion",
+        name: "Connexion",
+        component: InterfaceConnexion,
     },
     {
         path: "/about",
