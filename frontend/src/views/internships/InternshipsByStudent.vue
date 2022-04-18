@@ -1,18 +1,23 @@
 <script setup>
 import InternshipsList from "@/components/InternshipsList.vue";
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, ref } from "vue";
 
 const props = defineProps(["id"]);
 
 let data = reactive({
     student: null,
-    link:"",
-    ready:false
+    name:"",
+    link: ""
 });
 
+var list = ref(null);
+
 onMounted(() => {
-    getStudent();
-});
+    setTimeout(() => {
+        list.value.data.link = "internshipsByStudent/" + data.student.id;
+        list.value.getInternships();
+    }, 150);
+})
 
 function getStudent() {
     fetch("/api/utilisateurById/" + props.id)
@@ -24,19 +29,17 @@ function getStudent() {
         })
         .then((json) => {
             data.student = json;
-            data.ready = true;
-            data.link = "internshipsByStudent/" + data.student.id;
-            var el = document.createElement("div");
-            el.innerHTML = "<InternshipsList :link=\"data.link\" />";
-            //document.getElementById("internshipByStudent").appendChild(el);
+            data.name=data.student.nom;
         })
         .catch((error) => alert(error));
 }
+getStudent();
 </script>
 
 <template>
     <div id="internshipByStudent">
-        <h1 v-if="data.ready">Liste de tous les stages de l'étudiant {{ data.student.nom }}</h1>
+        <h1>Liste de tous les stages de l'étudiant {{ data.name }}</h1>
+        <InternshipsList :link="data.link" ref="list"/>
     </div>
 </template>
 

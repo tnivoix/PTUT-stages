@@ -1,34 +1,42 @@
 <script setup>
 import { reactive, onMounted } from "vue";
 import router from "@/router/index";
+import { define } from "mime";
 
 const props = defineProps(["link"]);
 
 let data = reactive({
     stages: [],
+    link: props.link
 });
+
+defineExpose({
+    getInternships,
+    data
+})
 
 onMounted(
     getInternships,
 );
 
 function internshipRedirect(id) {
-    router.push("/internship/"+id);
+    router.push("/internship/" + id);
 }
 
 function getInternships() {
-    fetch("/api/" + props.link)
-        .then((response) => {
-            if (!response.ok) { // status != 2XX
-                throw new Error(response.status);
-            }
-            return response.json();
-        })
-        .then((json) => {
-            data.stages = json;
-            console.log(data.stages)
-        })
-        .catch((error) => alert(error));
+    if (data.link != "") {
+        fetch("/api/" + data.link)
+            .then((response) => {
+                if (!response.ok) { // status != 2XX
+                    throw new Error(response.status);
+                }
+                return response.json();
+            })
+            .then((json) => {
+                data.stages = json;
+            })
+            .catch((error) => alert(error));
+    }
 }
 </script>
 
