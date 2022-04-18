@@ -17,7 +17,7 @@
       </label>
       <button id="togg1" type="button">Créer une nouvelle entreprise</button>
       <div id="d1" hidden>
-        <SignUpCompany @entrepriseAdded="refreshCompanies" />
+        <CompanyForm @companyAdded="refreshCompanies" />
       </div>
       <div class="mb-3">
         <label for="anneeEtude" class="form-label">Année d'étude :</label>
@@ -96,7 +96,7 @@
 
 <script setup>
 import { reactive, onMounted } from "vue";
-import SignUpCompany from "./SignUpCompany";
+import CompanyForm from "@/components/CompanyForm.vue";
 
 
 const emptyInternship = {
@@ -127,12 +127,6 @@ const data = reactive({
   internship: { ...emptyInternship },
 });
 
-defineExpose({
-  data,
-});
-
-const emit = defineEmits(["internshipAdded"]);
-
 function fetchEntreprises() {
   fetch("/api/entreprises")
     .then((response) => response.json())
@@ -145,8 +139,6 @@ function fetchEntreprises() {
 function refreshCompanies() {
   fetchEntreprises();
   document.getElementById("d1").hidden = true;
-  console.log(document.getElementById("selectEntreprise").value)
-  console.log(document.getElementById("selectEntreprise").lastElementChild.value)
   setTimeout(function () { document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value }, 150);
 }
 
@@ -168,8 +160,8 @@ function addInternship() {
       return response.json();
     })
     .then((json) => {
+      console.log("Internship "+data.internship.id+" added");
       data.internship = { ...emptyInternship }; // On réinitialise le formulaire
-      emit("internshipAdded", json); // On notifie le parent que le stage a été ajouté
     })
     .catch((error) => {
       console.log(error);

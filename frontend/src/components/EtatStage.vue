@@ -12,7 +12,7 @@ defineExpose({ // On expose la méthode 'getStage' pour être utilisée par le p
 
 function getEtatStage() {
   const fetchOptions = {method: "GET"};
-  fetch("api/etatStages", fetchOptions)
+  fetch("/api/etatStages", fetchOptions)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);
@@ -29,7 +29,7 @@ function getEtatStage() {
 
 function getIdStage(id) {
   const fetchOptions = {method: "GET"};
-  fetch("api/etatStages/"+id, fetchOptions)
+  fetch("/api/etatStages/"+id, fetchOptions)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);

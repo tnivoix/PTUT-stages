@@ -1,38 +1,117 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Home.vue";
-import ListDesStages from "@/views/ListDesStages.vue"
-import PageAllStage from "@/views/PageAllStage.vue";
-import InternshipFormPage from "@/views/InternshipFormPage.vue";
-import Inscription from "@/views/Inscription.vue";
-import InscriptionEntreprise from "@/views/InscriptionEntreprise.vue";
-import InterfaceConnexion from "@/views/InterfaceConnexion.vue";
 
-const routes = [{
+import Home from "@/views/Home.vue";
+
+import Signup from "@/views/authentification/Signup.vue";
+import Signin from "@/views/authentification/Signin.vue";
+
+import InternshipForm from "@/views/forms/InternshipForm.vue";
+import CompanyForm from "@/views/forms/CompanyForm.vue";
+
+import Internship from "@/views/internships/Internship.vue";
+import AllInternships from "@/views/internships/AllInternships.vue";
+import FreeInternships from "@/views/internships/FreeInternships.vue";
+import InProgressInternships from "@/views/internships/InProgressInternships.vue";
+import PendingInternships from "@/views/internships/PendingInternships.vue";
+import InternshipsByCompany from "@/views/internships/InternshipsByCompany.vue";
+import InternshipsByStudent from "@/views/internships/InternshipsByStudent.vue";
+import InternshipsByTutor from "@/views/internships/InternshipsByTutor.vue";
+
+import Companies from "@/views/lists/Companies.vue";
+import Students from "@/views/lists/Students.vue";
+import Tutors from "@/views/lists/Tutors.vue";
+
+const routes = [
+    // home
+    {
         path: "/",
         name: "Home",
         component: Home,
     },
+    // authentification
     {
-        path: "/internshipFormPage",
-        name: "InternshipFormPage",
-        component: InternshipFormPage,
-    },
-
-    {
-        path: "/Inscription",
-        name: "Inscription",
-        component: Inscription,
+        path: "/signup",
+        name: "Signup",
+        component: Signup,
     },
     {
-        path: "/InscriptionEntreprise",
-        name: "InscriptionEntreprise",
-        component: InscriptionEntreprise,
+        path: "/signin",
+        name: "Signin",
+        component: Signin,
+    },
+    // forms
+    {
+        path: "/internshipForm",
+        name: "InternshipForm",
+        component: InternshipForm,
     },
     {
-        path: "/Connexion",
-        name: "Connexion",
-        component: InterfaceConnexion,
+        path: "/companyForm",
+        name: "CompanyForm",
+        component: CompanyForm,
     },
+    // internships
+    {
+        path: "/internship/:id",
+        name: "Internship",
+        component: Internship,
+        props: true,
+    },
+    {
+        path: "/allInternships",
+        name: "AllInternships",
+        component: AllInternships,
+    },
+    {
+        path: "/freeInternships",
+        name: "FreeInternships",
+        component: FreeInternships,
+    },
+    {
+        path: "/inProgressInternships",
+        name: "InProgressInternships",
+        component: InProgressInternships,
+    },
+    {
+        path: "/pendingInternships",
+        name: "PendingInternships",
+        component: PendingInternships,
+    },
+    {
+        path: "/internshipsByCompany/:id",
+        name: "InternshipsByCompany",
+        component: InternshipsByCompany,
+        props: true,
+    },
+    {
+        path: "/internshipsByStudent/:id",
+        name: "InternshipsByStudent",
+        component: InternshipsByStudent,
+        props: true,
+    },
+    {
+        path: "/internshipsByTutor/:id",
+        name: "InternshipsByTutor",
+        component: InternshipsByTutor,
+        props: true,
+    },
+    // lists
+    {
+        path: "/companies",
+        name: "Companies",
+        component: Companies,
+    },
+    {
+        path: "/students",
+        name: "Students",
+        component: Students,
+    },
+    {
+        path: "/tutors",
+        name: "Tutors",
+        component: Tutors,
+    },
+    // about
     {
         path: "/about",
         name: "About",
@@ -41,26 +120,7 @@ const routes = [{
         // which is lazy-loaded when the route is visited.
         component: () =>
             import ( /* webpackChunkName: "about" */ "../views/About.vue"),
-    },
-
-    {
-        path: "/listDesStages",
-        name: "ListDesStages",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: ListDesStages,
-    },
-    {
-        path: "/pageAllStage",
-        name: "PageAllStage",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: PageAllStage,
-    },
-
-
+    }
 ];
 
 const router = createRouter({

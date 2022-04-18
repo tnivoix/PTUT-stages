@@ -26,7 +26,7 @@ const emit = defineEmits(['nouvelleConnexion',])
 function nouvelleConnexion() {
   console.log(identifiant.value);
   console.log(motDePasse.value);
-  fetch("api/utilisateurByIdentifiant/"+identifiant.value)
+  fetch("/api/utilisateurByIdentifiant/"+identifiant.value)
     .then((response) => response.json())
     .then((json) => {
       console.log(json)

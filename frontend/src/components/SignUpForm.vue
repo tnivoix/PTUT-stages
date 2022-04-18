@@ -82,7 +82,7 @@ function addUtilisateur() {
       "Content-Type": "application/json",
     },
   };
-  fetch("api/utilisateurs", options)
+  fetch("/api/utilisateurs", options)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);
@@ -98,10 +98,9 @@ function addUtilisateur() {
 
 // Utilise l'API REST auto-générée pour avoir les roles
 function fetchRoles() {
-  fetch("api/roles")
+  fetch("/api/roles")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json._embedded.roles)
       data.allRoles = json._embedded.roles;
     })
     .catch((error) => console.log());

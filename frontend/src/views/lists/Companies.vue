@@ -5,14 +5,13 @@ let data = reactive({
   entreprises: [],
 });
 
-defineExpose({ 
+onMounted(
   getEntreprise,
-})
-
+);
 
 function getEntreprise() {
   const fetchOptions = {method: "GET"};
-  fetch("api/allCompanies", fetchOptions)
+  fetch("/api/allCompanies", fetchOptions)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);
@@ -24,17 +23,11 @@ function getEntreprise() {
     })
     .catch((error) => alert(error));
 }
-
-onMounted(
-  getEntreprise,
-);
-
-getEntreprise();
-
 </script>
 
 <template>
  <div class="container">
+   <h1>Liste de toutes les entreprise</h1>
     <table class="table table-bordered table-sm table-hover">
       <thead>
         <tr>
