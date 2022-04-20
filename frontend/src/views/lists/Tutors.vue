@@ -13,7 +13,7 @@ function refresh() {
 
 <template>
     <div>
-        <h1>Liste des étudiants</h1>
+        <h1>Liste des tuteurs</h1>
         <UsersByRole :role="role" ref="list" />
     </div>
 </template>

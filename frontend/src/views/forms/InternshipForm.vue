@@ -1,5 +1,5 @@
 <template>
-  <h2>Ajouter un stage</h2>
+  <h1>Ajouter un stage</h1>
   <p>Tous les champs doivent être remplis.</p>
   <div class="container mt-3">
     <form @submit.prevent="addInternship">

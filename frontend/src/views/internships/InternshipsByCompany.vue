@@ -1,17 +1,48 @@
 <script setup>
 import InternshipsList from "@/components/InternshipsList.vue";
+import { reactive, onMounted, ref } from "vue";
 
-const props = defineProps(["company"]);
+const props = defineProps(["id"]);
 
-var link = "internshipsByCompany/"+props.company.id;
+let data = reactive({
+    company: null,
+    name:"",
+    link: ""
+});
+
+var list = ref(null);
+
+onMounted(() => {
+    setTimeout(() => {
+        list.value.data.link = "internshipsByCompany/" + data.company.id;
+        list.value.getInternships();
+    }, 150);
+})
+
+function getCompany() {
+    fetch("/api/entrepriseById/" + props.id)
+        .then((response) => {
+            if (!response.ok) { // status != 2XX
+                throw new Error(response.status);
+            }
+            return response.json();
+        })
+        .then((json) => {
+            data.company = json;
+            data.name=data.company.nom;
+        })
+        .catch((error) => alert(error));
+}
+getCompany();
 </script>
 
 <template>
-<h1>Liste de tous les stages de l'entreprise {{props.company.nom}}</h1>
-<InternshipsList :link="link"/>
+    <div id="internshipByCompany">
+        <h1>Liste de tous les stages de l'entreprise {{ data.name }}</h1>
+        <InternshipsList :link="data.link" ref="list"/>
+    </div>
 </template>
 
 
 <style>
-
 </style>

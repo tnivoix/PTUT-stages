@@ -27,7 +27,7 @@ function getEntreprise() {
 
 <template>
  <div class="container">
-   <h1>Liste de toutes les entreprise</h1>
+   <h1>Liste des entreprises</h1>
     <table class="table table-bordered table-sm table-hover">
       <thead>
         <tr>
