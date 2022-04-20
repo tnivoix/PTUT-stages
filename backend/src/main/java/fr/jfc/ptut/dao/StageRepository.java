@@ -37,9 +37,9 @@ public interface StageRepository extends JpaRepository<Stage, Integer> {
         return internshipsByState;
     }
 
-    default Stage changeInternshipState(Stage stage, EtatStage etatStage){
+    default void changeInternshipState(Stage stage, EtatStage etatStage){
         stage.setEtatStage(etatStage);
         save(stage);
-        return stage;
+        //return stage;
     }
 }

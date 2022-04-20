@@ -47,10 +47,7 @@ function validate() {
     .catch((error) => alert(error));
   setTimeout(() => {
     fetch("/api/changeInternshipState/" + data.internship.id + "/" + newEtatStage)
-      .then((response) => {
-        return response.json();
-      })
-      .then((dataJSON) => {
+      .then(() => {
         getInternship();
       });
   }, 200);

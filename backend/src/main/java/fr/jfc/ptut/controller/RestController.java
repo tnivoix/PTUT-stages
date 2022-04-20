@@ -191,11 +191,21 @@ public class RestController {
 	 * @return le stage
 	 */
 	@GetMapping(path = "changeInternshipState/{idInternship}/{idState}")
-	public @ResponseBody Stage changeInternshipState(@PathVariable Integer idInternship, @PathVariable Integer idState) {
+	public @ResponseBody void changeInternshipState(@PathVariable Integer idInternship, @PathVariable Integer idState) {
 		Stage s = stageDao.getById(idInternship);
 		EtatStage e = etatStageDao.getById(idState);
-		s = stageDao.changeInternshipState(s, e);
+		stageDao.changeInternshipState(s, e);
 		log.info("Enregistré: {}", s);
-		return s;
+		//return s;
+	}
+
+	/**
+	 * Renvoie une entrprise suivant son id
+	 * @return une entreprise
+	 */
+	@GetMapping(path = "entrepriseById/{id}") 
+	public @ResponseBody Entreprise findEntrepriseById(@PathVariable Integer id) {
+		log.info("Renvoie une entreprise");
+		return entrepriseDao.getById(id);
 	}
 }
