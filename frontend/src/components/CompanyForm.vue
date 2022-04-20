@@ -1,6 +1,6 @@
 <template>
 
-  <h2>Formulaire d'inscription entreprise</h2>
+  <h1>Formulaire d'inscription entreprise</h1>
   <p>Tous les champs doivent être remplis.</p>
   <div class="container mt-3">
     <form @submit.prevent="addEntreprise">
@@ -14,8 +14,8 @@
       </div>
       <div class="mb-3">
         <label for="numTel" class="form-label">Numéro de téléphone :</label>
-        <input type="tel" pattern="[00-99]{2} [00-99]{2} [00-99]{2} [00-99]{2} [0-99]{2}" class="form-control" required="required" v-model="data.entreprise.numTel" />
-        <small>Format: 05 65 33 76 82</small>
+        <input type="tel" pattern="[00-99]{2}[00-99]{2}[00-99]{2}[00-99]{2}[0-99]{2}" class="form-control" required="required" v-model="data.entreprise.numTel" />
+        <small>Format: 0123456789</small>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">@email :</label>
@@ -46,8 +46,7 @@ defineExpose({
   data,
 })
 
-
-const emit = defineEmits(['entrepriseAdded',])
+const emit = defineEmits(['companyAdded',])
 
 function addEntreprise() {
   const options = {
@@ -58,7 +57,7 @@ function addEntreprise() {
       "Content-Type": "application/json",
     },
   };
-  fetch("api/entreprises", options)
+  fetch("/api/entreprises", options)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);
@@ -66,8 +65,9 @@ function addEntreprise() {
       return response.json();
     })
     .then((json) => {
+      console.log("Company "+data.entreprise.nom+" added");
       data.entreprise = {...emptyentreprise}; // On réinitialise le formulaire
-      emit('entrepriseAdded', json); // On notifie le parent que le pays a été ajouté
+      emit('companyAdded'); // On notifie le parent que le pays a été ajouté
     })
     .catch((error) => alert(error));
 }

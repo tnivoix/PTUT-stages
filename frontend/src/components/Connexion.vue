@@ -1,5 +1,5 @@
 <template>
-  <h2>Connexion Utilisateur</h2>
+  <h1>Connexion Utilisateur</h1>
   <p>Tous les champs doivent être remplis.</p>
   <div class="container mt-3">
     <form @submit.prevent="nouvelleConnexion()">
@@ -26,7 +26,7 @@ const emit = defineEmits(['nouvelleConnexion',])
 function nouvelleConnexion() {
   console.log(identifiant.value);
   console.log(motDePasse.value);
-  fetch("api/utilisateurByIdentifiant/"+identifiant.value)
+  fetch("/api/utilisateurByIdentifiant/"+identifiant.value)
     .then((response) => response.json())
     .then((json) => {
       console.log(json)

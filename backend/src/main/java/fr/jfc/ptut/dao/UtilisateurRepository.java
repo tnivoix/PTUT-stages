@@ -12,6 +12,8 @@ import fr.jfc.ptut.entity.Utilisateur;
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
 
     Optional<Utilisateur> findByIdentifiant(String username);
+    
+    Optional<Utilisateur> findById(Integer id);
 
     default List<Utilisateur> findAllByRole(String role) {
         List<Utilisateur> users = findAll();
@@ -24,21 +26,21 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
         return usersByRole;
     }
 
-    default List<Stage> intershipsByUser(int idUser) {
+    default List<Stage> internshipsByUser(int idUser) {
         return findById(idUser).get().getStages();
     }
 
-    default List<Stage> intershipsByStudent(int idStudent) {
+    default List<Stage> internshipsByStudent(int idStudent) {
         if (findById(idStudent).get().getRole().getNom().equals("Étudiant")) {
-            return intershipsByUser(idStudent);
+            return internshipsByUser(idStudent);
         } else {
             throw new IllegalArgumentException("Cet utilisateur n'est pas un étudiant");
         }
     }
 
-    default List<Stage> intershipsByTutor(int idTutor) {
+    default List<Stage> internshipsByTutor(int idTutor) {
         if (findById(idTutor).get().getRole().getNom().equals("Tuteur")) {
-            return intershipsByUser(idTutor);
+            return internshipsByUser(idTutor);
         } else {
             throw new IllegalArgumentException("Cet utilisateur n'est pas un tuteur");
         }
