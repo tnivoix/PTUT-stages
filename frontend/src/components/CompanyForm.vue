@@ -46,8 +46,7 @@ defineExpose({
   data,
 })
 
-
-const emit = defineEmits(['entrepriseAdded',])
+const emit = defineEmits(['companyAdded',])
 
 function addEntreprise() {
   const options = {
@@ -58,7 +57,7 @@ function addEntreprise() {
       "Content-Type": "application/json",
     },
   };
-  fetch("api/entreprises", options)
+  fetch("/api/entreprises", options)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);
@@ -66,8 +65,9 @@ function addEntreprise() {
       return response.json();
     })
     .then((json) => {
+      console.log("Company "+data.entreprise.nom+" added");
       data.entreprise = {...emptyentreprise}; // On réinitialise le formulaire
-      emit('entrepriseAdded', json); // On notifie le parent que le pays a été ajouté
+      emit('companyAdded'); // On notifie le parent que le pays a été ajouté
     })
     .catch((error) => alert(error));
 }
