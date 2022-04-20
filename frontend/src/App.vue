@@ -34,6 +34,9 @@
 
 #nav {
   padding: 30px;
+  border:solid;
+  background-color:  rgb(132, 159, 210);
+  z-index: 1;
 }
 
 #nav a {
@@ -42,6 +45,6 @@
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color:  rgb(57, 97, 172);
 }
 </style>
