@@ -1,6 +1,6 @@
 <template>
 
-  <h2>Formulaire d'inscription entreprise</h2>
+  <h1>Formulaire d'inscription entreprise</h1>
   <p>Tous les champs doivent être remplis.</p>
   <div class="container mt-3">
     <form @submit.prevent="addEntreprise">

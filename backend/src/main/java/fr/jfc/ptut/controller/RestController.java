@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -47,7 +49,7 @@ public class RestController {
 	 */
 	@GetMapping(path = "internshipById/{idInternship}")
 	public @ResponseBody Stage internshipById(@PathVariable int idInternship) {
-		log.info("Renvoie le stage idInternship");
+		log.info("Renvoie le stage"+idInternship);
 		return stageDao.findById(idInternship).get();
 	}
 
@@ -98,7 +100,7 @@ public class RestController {
 	 */
 	@GetMapping(path = "internshipsByStudent/{idStudent}")
 	public @ResponseBody List<Stage> internshipsByStudent(@PathVariable int idStudent) {
-		log.info("Renvoie la liste des stages de l'étudiant idStudent");
+		log.info("Renvoie la liste des stages de l'étudiant"+idStudent);
 		return utilisateurDao.internshipsByStudent(idStudent);
 	}
 
@@ -109,7 +111,7 @@ public class RestController {
 	 */
 	@GetMapping(path = "internshipsByTutor/{idTutor}")
 	public @ResponseBody List<Stage> internshipsByTutor(@PathVariable int idTutor) {
-		log.info("Renvoie la liste des stages du tuteur idTutor");
+		log.info("Renvoie la liste des stages du tuteur"+idTutor);
 		return utilisateurDao.internshipsByTutor(idTutor);
 	}
 
@@ -120,7 +122,7 @@ public class RestController {
 	 */
 	@GetMapping(path = "internshipsByCompany/{idCompany}")
 	public @ResponseBody List<Stage> internshipsByCompany(@PathVariable int idCompany) {
-		log.info("Renvoie la liste des stages de l'entreprise idCompany");
+		log.info("Renvoie la liste des stages de l'entreprise "+idCompany);
 		return entrepriseDao.internshipsByCompany(idCompany);
 	}
 
@@ -172,5 +174,28 @@ public class RestController {
 	public @ResponseBody Utilisateur findUtilisateurById(@PathVariable Integer id) {
 		log.info("Renvoie un utilisateur");
 		return utilisateurDao.findById(id).get();
+	}
+
+	/**
+	 * Renvoie un etatStage suivant son nom
+	 * @return un etatStage
+	 */
+	@GetMapping(path = "etatStageByNom/{nom}") 
+	public @ResponseBody EtatStage findEtatStageByNom(@PathVariable String nom) {
+		log.info("Renvoie un etatStage");
+		return etatStageDao.findByNom(nom).get();
+	}
+
+	/**
+	 * Renvoie le stage modifié
+	 * @return le stage
+	 */
+	@GetMapping(path = "changeInternshipState/{idInternship}/{idState}")
+	public @ResponseBody Stage changeInternshipState(@PathVariable Integer idInternship, @PathVariable Integer idState) {
+		Stage s = stageDao.getById(idInternship);
+		EtatStage e = etatStageDao.getById(idState);
+		s = stageDao.changeInternshipState(s, e);
+		log.info("Enregistré: {}", s);
+		return s;
 	}
 }

@@ -1,11 +1,13 @@
 package fr.jfc.ptut.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import fr.jfc.ptut.entity.EtatStage;
 import fr.jfc.ptut.entity.Stage;
 
 public interface StageRepository extends JpaRepository<Stage, Integer> {
@@ -33,5 +35,11 @@ public interface StageRepository extends JpaRepository<Stage, Integer> {
             }
         }
         return internshipsByState;
+    }
+
+    default Stage changeInternshipState(Stage stage, EtatStage etatStage){
+        stage.setEtatStage(etatStage);
+        save(stage);
+        return stage;
     }
 }
