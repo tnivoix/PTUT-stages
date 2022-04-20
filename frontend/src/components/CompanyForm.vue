@@ -14,8 +14,8 @@
       </div>
       <div class="mb-3">
         <label for="numTel" class="form-label">Numéro de téléphone :</label>
-        <input type="tel" pattern="[00-99]{2} [00-99]{2} [00-99]{2} [00-99]{2} [0-99]{2}" class="form-control" required="required" v-model="data.entreprise.numTel" />
-        <small>Format: 05 65 33 76 82</small>
+        <input type="tel" pattern="[00-99]{2}[00-99]{2}[00-99]{2}[00-99]{2}[0-99]{2}" class="form-control" required="required" v-model="data.entreprise.numTel" />
+        <small>Format: 0123456789</small>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">@email :</label>

@@ -21,7 +21,7 @@
       </div>
       <div class="mb-3">
         <label for="anneeEtude" class="form-label">Année d'étude :</label>
-        <input class="form-control" required="required" type="number" v-model="data.internship.anneeEtude" />
+        <input class="form-control" min="0" max="5" required="required" type="number" v-model="data.internship.anneeEtude" />
       </div>
       <div class="mb-3">
         <label for="adresse" class="form-label">Adresse :</label>
@@ -65,11 +65,11 @@
       </div>
       <div class="mb-3">
         <label for="duree" class="form-label">Durée : (nombre de semaines)</label>
-        <input class="form-control" required="required" type="number" v-model="data.internship.duree" />
+        <input class="form-control" min="1" required="required" type="number" v-model="data.internship.duree" />
       </div>
       <div class="mb-3">
         <label for="remuneration" class="form-label">Rémunération :</label>
-        <input class="form-control" required="required" type="number" step="0.01"
+        <input class="form-control" required="required" type="number" min="0" step="0.01"
           v-model="data.internship.remuneration" />
       </div>
       <div class="mb-3">
@@ -147,7 +147,7 @@ function refreshCompanies() {
   document.getElementById("d1").hidden = true;
   console.log(document.getElementById("selectEntreprise").value)
   console.log(document.getElementById("selectEntreprise").lastElementChild.value)
-  setTimeout(function () { document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value }, 150);
+  setTimeout(function () { document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value }, 200);
 }
 
 function addInternship() {
