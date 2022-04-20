@@ -8,7 +8,7 @@ import fr.jfc.ptut.entity.Stage;
 
 public interface EntrepriseRepository extends JpaRepository<Entreprise, Integer> {
 
-    default List<Stage> intershipsByCompany(int idCompany) {
+    default List<Stage> internshipsByCompany(int idCompany) {
         return findById(idCompany).get().getStages();
     }
 }

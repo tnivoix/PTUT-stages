@@ -6,12 +6,17 @@
   <div>
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link to="/listDesStages">Liste des stages disponibles</router-link> |
-      <router-link to="/pageAllStage">Liste de tous les stages</router-link> |
-      <router-link to="/internshipFormPage">Ajout de stage</router-link> |
-      <router-link to="/Inscription">Inscription</router-link> |
-      <router-link to="/InscriptionEntreprise">Inscription entreprise</router-link> |
-      <router-link to="/Connexion">Connexion</router-link>
+      <router-link to="/allInternships">Tous les stages</router-link> |
+      <router-link to="/freeInternships">Stages disponibles</router-link> |
+      <router-link to="/pendingInternships">Stages à valider</router-link> |
+      <router-link to="/inProgressInternships">Stages en cours</router-link> |
+      <router-link to="/companies">Entreprises</router-link> |
+      <router-link to="/tutors">Tuteurs</router-link> |
+      <router-link to="/students">Étudiants</router-link> |
+      <router-link to="/internshipForm">Ajout stage</router-link> |
+      <router-link to="/companyForm">Ajout entreprise</router-link> |
+      <router-link to="/signup">Inscription</router-link> |
+      <router-link to="/signin">Connexion</router-link> |
       <router-link to="/about">About</router-link>
       <router-view />
     </div>

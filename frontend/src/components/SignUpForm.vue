@@ -1,6 +1,6 @@
 <template>
 
-  <h2>Formulaire d'inscription</h2>
+  <h1>Formulaire d'inscription</h1>
   <p>Tous les champs doivent être remplis.</p>
   <div class="container mt-3">
     <form @submit.prevent="addUtilisateur">
@@ -26,8 +26,8 @@
       </div>
       <div class="mb-3">
         <label for="numTel" class="form-label">Numéro de téléphone :</label>
-        <input type="tel" pattern="[00-99]{2} [00-99]{2} [00-99]{2} [00-99]{2} [0-99]{2}" class="form-control" required="required" v-model="data.utilisateur.numTel" />
-        <small>Format: 05 65 33 76 82</small>
+        <input type="tel" pattern="[00-99]{2}[00-99]{2}[00-99]{2}[00-99]{2}[0-99]{2}" class="form-control" required="required" v-model="data.utilisateur.numTel" />
+        <small>Format: 0123456789</small>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">@email :</label>
@@ -82,7 +82,7 @@ function addUtilisateur() {
       "Content-Type": "application/json",
     },
   };
-  fetch("api/utilisateurs", options)
+  fetch("/api/utilisateurs", options)
     .then((response) => {
       if (!response.ok) { // status != 2XX
         throw new Error(response.status);
@@ -98,10 +98,9 @@ function addUtilisateur() {
 
 // Utilise l'API REST auto-générée pour avoir les roles
 function fetchRoles() {
-  fetch("api/roles")
+  fetch("/api/roles")
     .then((response) => response.json())
     .then((json) => {
-      console.log(json._embedded.roles)
       data.allRoles = json._embedded.roles;
     })
     .catch((error) => console.log());
