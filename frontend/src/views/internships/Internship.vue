@@ -7,6 +7,8 @@ let data = reactive({
   internship: null,
   ready: false,
   validate: false,
+  tuteur: '',
+  etudiant: '',
 });
 onBeforeMount(() => {
   getInternship();
@@ -23,6 +25,8 @@ function getInternship() {
     })
     .then((json) => {
       data.internship = json;
+      getUseurs();
+      console.log(data.internship);
       data.ready = true;
       data.validate =
         data.internship.etatStage.nom == "Proposition en attente de validation";
@@ -42,28 +46,32 @@ function validate() {
       return response.json();
     })
     .then((json) => {
-      newEtatStage = json;
+      newEtatStage = json.id;
     })
     .catch((error) => alert(error));
   setTimeout(() => {
-    const options = {
-      method: "PATCH",
-      body: JSON.stringify(newEtatStage),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    fetch("/api/changeInternshipState/" + data.internship.id, options)
+    fetch("/api/changeInternshipState/" + data.internship.id + "/" + newEtatStage)
       .then(() => {
         getInternship();
       });
   }, 200);
 }
+
+function getUseurs() {
+  data.internship.utilisateurs.forEach(user => {
+    if (user.role.nom == 'Étudiant') {
+      data.etudiant = user;
+    } else if (user.role.nom == 'Tuteur') {
+      data.tuteur = user;
+    }
+  });
+
+}
+
 </script>
 
 <template>
   <div v-if="data.ready">
-    <br>
     <h1>Stage n°{{ data.internship.id }}</h1>
     <div id="info" class="container">
       <!--<table class="table table-bordered table-sm table-hover">
@@ -118,17 +126,19 @@ function validate() {
       </table>-->
       <br>
       <h2>Sujet du stage : {{ data.internship.sujet }}</h2>
+      <p>Tuteur de stage : {{ data.tuteur.prenom }} {{ data.tuteur.nom }}</p>
       <p>Date du stage : {{ data.internship.dateDebut }}, d'une durée de {{ data.internship.duree }} semaines</p>
       <br>
-      <h3>Etudiant : </h3>
+      <h3>Etudiant : {{ data.etudiant.prenom }} {{ data.etudiant.nom }}</h3>
       <p>Année d'étude : {{ data.internship.anneeEtude }}e année</p>
       <br>
-      <h3>Entreprise : </h3>
-      <p>Coordonnées : </p>
-      <p>Secteur : </p>
-      <p>Adresse du stage : {{ data.internship.adresse }}, {{ data.internship.codePostal }} {{ data.internship.ville }}, {{ data.internship.pays }}</p>
+      <h3>Entreprise : {{ data.internship.entreprise.nom }}</h3>
+      <p>Coordonnées : {{ data.internship.entreprise.numTel }}, {{ data.internship.entreprise.email }}</p>
+      <p>Secteur : {{ data.internship.entreprise.secteurActivite }}</p>
+      <p>Adresse du stage : {{ data.internship.adresse }}, {{ data.internship.codePostal }} {{ data.internship.ville }},
+        {{ data.internship.pays }}</p>
       <br>
-      <h3>Maitre de Stage : </h3>
+      <h3>Maitre de Stage : {{ data.internship.maitreDeStage }}</h3>
       <p>Fonction : {{ data.internship.fonction }}</p>
       <p>Coordonnées : {{ data.internship.numTel }}, {{ data.internship.email }}</p>
       <br>
@@ -151,7 +161,7 @@ function validate() {
 </template>
 
 <style>
-div#info{
+div#info {
   text-align: left;
 }
 </style>

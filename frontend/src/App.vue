@@ -19,6 +19,7 @@
       <router-link to="/signin">Connexion</router-link> |
       <router-link to="/about">About</router-link>
     </div>
+    <br>
       <router-view />
 
   </div>
