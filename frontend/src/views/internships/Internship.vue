@@ -10,6 +10,8 @@ let data = reactive({
   assign: false,
   students: [],
   tutors : [],
+  studentAssigne: false,
+  tutorAssigne: false,
 });
 
 
@@ -56,6 +58,8 @@ function getInternshipAssign() {
       data.ready = true;
       data.assign =
       data.internship.etatStage.nom == "Proposition validée";
+      console.log(json);
+      console.log(data.assign);
     })
     .catch((error) => alert(error));
 }
@@ -121,7 +125,7 @@ function validate() {
 }
 
 function assign() {
-  var newName = "Etudiant assigné";
+  var newName = "Étudiant assigné";
   var newEtatStage = null;
   fetch("/api/etatStageByNom/" + newName)
     .then((response) => {
@@ -132,17 +136,45 @@ function assign() {
       return response.json();
     })
     .then((json) => {
-      newEtatStage = json.id;
+      newEtatStage = json;
     })
     .catch((error) => alert(error));
   setTimeout(() => {
-    fetch("/api/changeInternshipState/" + data.internship.id + "/" + newEtatStage)
+   const options = {
+      method: "PATCH",
+      body: JSON.stringify(newEtatStage),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    fetch("/api/changeInternshipState/" + data.internship.id, options)
       .then(() => {
         getInternshipAssign();
       });
   }, 200);
 }
 
+function fetchStudent(){
+   let etudiantId = document.getElementById("etudiantSelector").value;
+  fetch("/api/addUser" + etudiantId )
+    .then((response) => response.json())
+    .then((json) => {
+      data.studentAssigne = json;
+    })
+    .catch((error) => console.log());
+    
+}
+
+function fetchSTutor(){
+   let tutorId = document.getElementById("tuteurSelector").value;
+  fetch("/api/addUser" + tutorId )
+    .then((response) => response.json())
+    .then((json) => {
+      data.tutorAssigne = json;
+    })
+    .catch((error) => console.log());
+    
+}
 
 </script>
 
@@ -173,6 +205,8 @@ function assign() {
             <th>Jury</th>
             <th>MaitreDeStage</th>
             <th>Fonction</th>
+            <th>Nom Etudiant</th>
+            <th>Nom Tuteur</th>
           </tr>
         </thead>
         <tbody>
@@ -197,6 +231,8 @@ function assign() {
             <td>{{ data.internship.jury }}</td>
             <td>{{ data.internship.maitreDeStage }}</td>
             <td>{{ data.internship.fonction }}</td>
+            <td v-if="data.studentAssigne">{{ data.students.id }}</td>
+            <td v-if="data.tutorAssigne">{{ data.tutors.id}}</td>
           </tr>
         </tbody>
       </table>
@@ -206,7 +242,7 @@ function assign() {
     </button>
 
     <div v-if="data.assign">
-      <select >
+      <select id="etudiantSelector" @input="fetchStudent">
         <option disabled value="0">Choisissez un etudiant</option>
               <option
                 v-for="student in data.students"
@@ -216,7 +252,7 @@ function assign() {
               {{student.nom }}
               </option>
       </select>
-      <select>
+      <select id="tuteurSelector" @input="fetchTutor">
           <option disabled value="0">Choisissez un tuteur</option>
               <option
                 v-for="tutor in data.tutors"
