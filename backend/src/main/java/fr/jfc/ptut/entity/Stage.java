@@ -76,6 +76,12 @@ public class Stage {
     private String jury;
 
     @NonNull
+    private String numTel;
+
+    @NonNull
+    private String email;
+
+    @NonNull
     private String maitreDeStage;
 
     @NonNull

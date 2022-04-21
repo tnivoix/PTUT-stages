@@ -56,9 +56,10 @@ function validate() {
 
 <template>
   <div v-if="data.ready">
+    <br>
     <h1>Stage n°{{ data.internship.id }}</h1>
-    <div class="container">
-      <table class="table table-bordered table-sm table-hover">
+    <div id="info" class="container">
+      <!--<table class="table table-bordered table-sm table-hover">
         <thead>
           <tr>
             <th>Sujet</th>
@@ -107,7 +108,34 @@ function validate() {
             <td>{{ data.internship.fonction }}</td>
           </tr>
         </tbody>
-      </table>
+      </table>-->
+      <br>
+      <h2>Sujet du stage : {{ data.internship.sujet }}</h2>
+      <p>Date du stage : {{ data.internship.dateDebut }}, d'une durée de {{ data.internship.duree }} semaines</p>
+      <br>
+      <h3>Etudiant : </h3>
+      <p>Année d'étude : {{ data.internship.anneeEtude }}e année</p>
+      <br>
+      <h3>Entreprise : </h3>
+      <p>Coordonnées : </p>
+      <p>Secteur : </p>
+      <p>Adresse du stage : {{ data.internship.adresse }}, {{ data.internship.codePostal }} {{ data.internship.ville }}, {{ data.internship.pays }}</p>
+      <br>
+      <h3>Maitre de Stage : </h3>
+      <p>Fonction : {{ data.internship.fonction }}</p>
+      <p>Coordonnées : {{ data.internship.numTel }}, {{ data.internship.email }}</p>
+      <br>
+      <h3>Stage : </h3>
+      <p>Service de l'entreprise : {{ data.internship.service }}</p>
+      <p>Contexte : {{ data.internship.contexte }}</p>
+      <p>Détails : {{ data.internship.details }}</p>
+      <p>Activités du stagiaire : {{ data.internship.activites }}</p>
+      <p>Compétences requises : {{ data.internship.competences }}</p>
+      <p>Rémunération : {{ data.internship.remuneration }} euros/semaine</p>
+      <br>
+      <h3>Evaluation : </h3>
+      <p>Date soutenance : {{ data.internship.soutenance }}</p>
+      <p>Jury : {{ data.internship.jury }}</p>
     </div>
     <button v-if="data.validate" @click="validate()">
       Valider la proposition de stage
@@ -115,4 +143,8 @@ function validate() {
   </div>
 </template>
 
-<style></style>
+<style>
+div#info{
+  text-align: left;
+}
+</style>

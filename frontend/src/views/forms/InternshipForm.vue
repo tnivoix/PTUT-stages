@@ -85,8 +85,17 @@
         <input class="form-control" required="required" v-model="data.internship.maitreDeStage" />
       </div>
       <div class="mb-3">
-        <label for="fonction" class="form-label">Fonction :</label>
+        <label for="fonction" class="form-label">Fontion :</label>
         <input class="form-control" required="required" v-model="data.internship.fonction" />
+      </div>
+      <div class="mb-3">
+        <label for="maitreDeStage" class="form-label">Numéro de téléphone du maitre de stage :</label>
+        <input type="tel" pattern="[00-99]{2}[00-99]{2}[00-99]{2}[00-99]{2}[0-99]{2}" class="form-control" required="required" v-model="data.internship.numTel" />
+        <small>Format: 0123456789</small>
+      </div>
+      <div class="mb-3">
+        <label for="fonction" class="form-label">email du maitre de stage :</label>
+        <input type="email" class="form-control" required="required" v-model="data.internship.email" />
       </div>
       <button type="submit" class="btn btn-primary">Ajouter le stage</button>
       <input type="reset" value="Reset" />
@@ -119,6 +128,8 @@ const emptyInternship = {
   maitreDeStage: "",
   fonction: "",
   entreprise: "",
+  numTel: "",
+  email: "",
   etatStage: "http://localhost:8989/api/etatStages/1",
 };
 
