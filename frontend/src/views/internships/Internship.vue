@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onBeforeMount } from "vue";
+import { reactive, onBeforeMount, onMounted } from "vue";
 
 const props = defineProps(["id"]);
 
@@ -7,10 +7,29 @@ let data = reactive({
   internship: null,
   ready: false,
   validate: false,
+  users: [],
 });
+
 onBeforeMount(() => {
   getInternship();
 });
+
+onMounted(getUsers);
+
+function getUsers() {
+  fetch("/api/allTutors")
+    .then((response) => {
+      if (!response.ok) {
+        // status != 2XX
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
+    .then((json) => {
+      data.users = json;
+    })
+    .catch((error) => alert(error));
+}
 
 function getInternship() {
   fetch("/api/internshipById/" + props.id)
@@ -46,10 +65,11 @@ function validate() {
     })
     .catch((error) => alert(error));
   setTimeout(() => {
-    fetch("/api/changeInternshipState/" + data.internship.id + "/" + newEtatStage)
-      .then(() => {
+    fetch("/api/changeInternshipState/" + data.internship.id + "/" + newEtatStage).then(
+      () => {
         getInternship();
-      });
+      }
+    );
   }, 200);
 }
 </script>
@@ -109,6 +129,12 @@ function validate() {
         </tbody>
       </table>
     </div>
+    <select>
+      <option disabled value="0">Choisissez un tuteur</option>
+      <option v-for="user in data.users" :key="user.id" :value="user.id">
+        {{ user.nom }}
+      </option>
+    </select>
     <button v-if="data.validate" @click="validate()">
       Valider la proposition de stage
     </button>
