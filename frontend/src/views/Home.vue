@@ -1,6 +1,6 @@
 <template>
 <div id="presentation">
-    <div id="image"><img id="work" alt="travailleurs" src="../assets/work.png" /></div>
+  <div id="image"><img id="work" alt="travailleurs" src="../assets/work.png" /></div>
   <div id="titres">
     <h3 id="titre">Gestion des stages</h3>
     <h2 id="sous-titre">Projet réalisé dans le cadre du projet tutoré <br/> FIE3 2021-2022</h2>
@@ -73,10 +73,9 @@ img#work{
 }
 
 div#image{
-  position:relative;
-  bottom:20px;
+  position:absolute;
+  bottom:70px;
   left:45%;
-  border:solid;
   width: 704px;
 }
 

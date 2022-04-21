@@ -18,8 +18,9 @@
       <router-link to="/signup">Inscription</router-link> |
       <router-link to="/signin">Connexion</router-link> |
       <router-link to="/about">About</router-link>
-      <router-view />
     </div>
+      <router-view />
+
   </div>
 </template>
 
