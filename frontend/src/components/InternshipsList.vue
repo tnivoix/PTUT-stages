@@ -72,7 +72,9 @@ function getInternships() {
                 </tr>
             </tbody>
         </table>
+
     </div>
+    
 
 
 </template>

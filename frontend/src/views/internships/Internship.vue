@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onBeforeMount } from "vue";
+import { reactive, onBeforeMount, onMounted } from "vue";
 
 const props = defineProps(["id"]);
 
@@ -7,10 +7,22 @@ let data = reactive({
   internship: null,
   ready: false,
   validate: false,
+  assign: false,
+  students: [],
+  tutors : [],
 });
+
+
 onBeforeMount(() => {
   getInternship();
+  getInternshipAssign();
 });
+
+onMounted(() => {
+  getStudents();
+  getTutors();
+});
+
 
 function getInternship() {
   fetch("/api/internshipById/" + props.id)
@@ -25,7 +37,55 @@ function getInternship() {
       data.internship = json;
       data.ready = true;
       data.validate =
-        data.internship.etatStage.nom == "Proposition en attente de validation";
+      data.internship.etatStage.nom == "Proposition en attente de validation";
+    })
+    .catch((error) => alert(error));
+}
+
+function getInternshipAssign() {
+  fetch("/api/internshipById/" + props.id)
+    .then((response) => {
+      if (!response.ok) {
+        // status != 2XX
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
+    .then((json) => {
+      data.internship = json;
+      data.ready = true;
+      data.assign =
+      data.internship.etatStage.nom == "Proposition validée";
+    })
+    .catch((error) => alert(error));
+}
+
+function getStudents() {
+  fetch("/api/allStudents")
+    .then((response) => {
+      if (!response.ok) {
+        // status != 2XX
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
+    .then((json) => {
+      data.students =json;
+    })
+    .catch((error) => alert(error));
+}
+
+function getTutors() {
+  fetch("/api/allTutors")
+    .then((response) => {
+      if (!response.ok) {
+        // status != 2XX
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
+    .then((json) => {
+      data.tutors =json;
     })
     .catch((error) => alert(error));
 }
@@ -52,6 +112,31 @@ function validate() {
       });
   }, 200);
 }
+
+function assign() {
+  var newName = "Etudiant assigné";
+  var newEtatStage = null;
+  fetch("/api/etatStageByNom/" + newName)
+    .then((response) => {
+      if (!response.ok) {
+        // status != 2XX
+        throw new Error(response.status);
+      }
+      return response.json();
+    })
+    .then((json) => {
+      newEtatStage = json.id;
+    })
+    .catch((error) => alert(error));
+  setTimeout(() => {
+    fetch("/api/changeInternshipState/" + data.internship.id + "/" + newEtatStage)
+      .then(() => {
+        getInternshipAssign();
+      });
+  }, 200);
+}
+
+
 </script>
 
 <template>
@@ -112,6 +197,37 @@ function validate() {
     <button v-if="data.validate" @click="validate()">
       Valider la proposition de stage
     </button>
+
+    <div v-if="data.assign">
+      <select >
+        <option disabled value="0">Choisissez un etudiant</option>
+              <option
+                v-for="student in data.students"
+                :key="student.id"
+                :value="student.id"
+                >
+              {{student.nom }}
+              </option>
+      </select>
+      <select>
+          <option disabled value="0">Choisissez un tuteur</option>
+              <option
+                v-for="tutor in data.tutors"
+                :key="tutor.id"
+                :value="tutor.id"
+                >
+              {{tutor.nom }}
+              </option>
+      </select>
+      
+
+      <button  @click="assign()">
+              Assigner l'étudiant et le tuteur
+      </button>
+      </div>
+
+
+    
   </div>
 </template>
 
