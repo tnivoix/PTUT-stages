@@ -30,6 +30,7 @@ function showResp() {
       <router-link v-if="showResp()" to="/allInternships"> Tous les stages |</router-link>
       <router-link v-if="showResp() || showStudent()" to="/freeInternships"> Stages disponibles |</router-link>
       <router-link v-if="showStudent()" :to="{ name: 'InternshipsByStudent', params: { id: data.currentUser.id } }"> Mes stages |</router-link>
+      <router-link v-if="showTutor()" :to="{ name: 'InternshipsByTutor', params: { id: data.currentUser.id } }"> Mes stages |</router-link>
       <router-link v-if="showResp()" to="/pendingInternships"> Stages à valider |</router-link>
       <router-link v-if="showResp()" to="/inProgressInternships"> Stages en cours |</router-link>
       <router-link v-if="showResp()" to="/companies"> Entreprises |</router-link>
