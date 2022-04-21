@@ -1,6 +1,7 @@
 package fr.jfc.ptut.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,7 +136,7 @@ public class RestController {
 	@GetMapping(path = "allStudents") 
 	public @ResponseBody List<Utilisateur> allStudents() {
 		log.info("Renvoie la liste des étudiants");
-		return utilisateurDao.findAllByRole("Étudiant");
+		return utilisateurDao.findAllByRole("ROLE_ETUDIANT");
 	}
 
 	/**
@@ -145,7 +146,7 @@ public class RestController {
 	@GetMapping(path = "allTutors") 
 	public @ResponseBody List<Utilisateur> allTutors() {
 		log.info("Renvoie la liste des tuteurs");
-		return utilisateurDao.findAllByRole("Tuteur");
+		return utilisateurDao.findAllByRole("ROLE_TUTEUR");
 	}
 
 	/**
@@ -185,7 +186,7 @@ public class RestController {
 	@GetMapping(path = "entrepriseById/{id}") 
 	public @ResponseBody Entreprise findEntrepriseById(@PathVariable Integer id) {
 		log.info("Renvoie une entreprise");
-		return entrepriseDao.getById(id);
+		return entrepriseDao.findById(id).get();
 	}
 
 	/**
@@ -212,9 +213,10 @@ public class RestController {
 	 * Ajoute une soutenance et un jury au stage
 	 */
 	@PatchMapping(path = "changeSoutenanceAndJury/{idInternship}")
-	public @ResponseBody void changeSoutenanceAndJury(@PathVariable Integer idInternship, @RequestBody Date soutenance, @RequestBody String jury) {
+	public @ResponseBody void changeSoutenanceAndJury(@PathVariable Integer idInternship, @RequestBody String[] data) {
 		Stage s = stageDao.getById(idInternship);
-		stageDao.addSoutenanceAndJury(s, soutenance, jury);
+		Date date = Date.valueOf(data[0]); 
+		stageDao.addSoutenanceAndJury(s, date, data[1]);
 		log.info("Enregistré: {}", s);
 	}
 

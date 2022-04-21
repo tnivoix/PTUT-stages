@@ -45,7 +45,7 @@ div#logo {
   padding: 15px;;
   bottom:100px;
   background-color:  rgb(132, 159, 210);
-  left:10%;
+  left:12%;
 }
 
 h3#titre{

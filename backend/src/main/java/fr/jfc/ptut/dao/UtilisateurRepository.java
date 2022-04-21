@@ -12,6 +12,8 @@ import fr.jfc.ptut.entity.Utilisateur;
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
 
     Optional<Utilisateur> findByIdentifiant(String username);
+	Boolean existsByIdentifiant(String username);
+	Boolean existsByEmail(String email);
     
     Optional<Utilisateur> findById(Integer id);
 
