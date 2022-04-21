@@ -42,11 +42,18 @@ function validate() {
       return response.json();
     })
     .then((json) => {
-      newEtatStage = json.id;
+      newEtatStage = json;
     })
     .catch((error) => alert(error));
   setTimeout(() => {
-    fetch("/api/changeInternshipState/" + data.internship.id + "/" + newEtatStage)
+    const options = {
+      method: "PATCH",
+      body: JSON.stringify(newEtatStage),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    fetch("/api/changeInternshipState/" + data.internship.id, options)
       .then(() => {
         getInternship();
       });
@@ -115,4 +122,5 @@ function validate() {
   </div>
 </template>
 
-<style></style>
+<style>
+</style>
