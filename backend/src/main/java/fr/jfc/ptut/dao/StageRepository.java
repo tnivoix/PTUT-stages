@@ -3,12 +3,14 @@ package fr.jfc.ptut.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import fr.jfc.ptut.entity.EtatStage;
 import fr.jfc.ptut.entity.Stage;
+import fr.jfc.ptut.entity.Utilisateur;
 
 public interface StageRepository extends JpaRepository<Stage, Integer> {
 
@@ -40,6 +42,16 @@ public interface StageRepository extends JpaRepository<Stage, Integer> {
     default void changeInternshipState(Stage stage, EtatStage etatStage){
         stage.setEtatStage(etatStage);
         save(stage);
-        //return stage;
+    }
+
+    default void addSoutenanceAndJury(Stage stage, Date soutenance, String jury){
+        stage.setSoutenance(soutenance);
+        stage.setJury(jury);
+        save(stage);
+    }
+
+    default void addUser(Stage stage, Utilisateur user){
+        stage.addUtilisateur(user);
+        save(stage);
     }
 }

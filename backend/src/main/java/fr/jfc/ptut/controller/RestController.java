@@ -1,10 +1,12 @@
 package fr.jfc.ptut.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -177,6 +179,16 @@ public class RestController {
 	}
 
 	/**
+	 * Renvoie une entrprise suivant son id
+	 * @return une entreprise
+	 */
+	@GetMapping(path = "entrepriseById/{id}") 
+	public @ResponseBody Entreprise findEntrepriseById(@PathVariable Integer id) {
+		log.info("Renvoie une entreprise");
+		return entrepriseDao.getById(id);
+	}
+
+	/**
 	 * Renvoie un etatStage suivant son nom
 	 * @return un etatStage
 	 */
@@ -187,25 +199,32 @@ public class RestController {
 	}
 
 	/**
-	 * Renvoie le stage modifié
-	 * @return le stage
+	 * Change l'état d'un stage
 	 */
-	@GetMapping(path = "changeInternshipState/{idInternship}/{idState}")
-	public @ResponseBody void changeInternshipState(@PathVariable Integer idInternship, @PathVariable Integer idState) {
+	@PatchMapping(path = "changeInternshipState/{idInternship}")
+	public @ResponseBody void changeInternshipState(@PathVariable Integer idInternship, @RequestBody EtatStage state) {
 		Stage s = stageDao.getById(idInternship);
-		EtatStage e = etatStageDao.getById(idState);
-		stageDao.changeInternshipState(s, e);
+		stageDao.changeInternshipState(s, state);
 		log.info("Enregistré: {}", s);
-		//return s;
 	}
 
 	/**
-	 * Renvoie une entrprise suivant son id
-	 * @return une entreprise
+	 * Ajoute une soutenance et un jury au stage
 	 */
-	@GetMapping(path = "entrepriseById/{id}") 
-	public @ResponseBody Entreprise findEntrepriseById(@PathVariable Integer id) {
-		log.info("Renvoie une entreprise");
-		return entrepriseDao.getById(id);
+	@PatchMapping(path = "changeSoutenanceAndJury/{idInternship}")
+	public @ResponseBody void changeSoutenanceAndJury(@PathVariable Integer idInternship, @RequestBody Date soutenance, @RequestBody String jury) {
+		Stage s = stageDao.getById(idInternship);
+		stageDao.addSoutenanceAndJury(s, soutenance, jury);
+		log.info("Enregistré: {}", s);
+	}
+
+	/**
+	 * Ajoute un utilisateur
+	 */
+	@PatchMapping(path = "addUser/{idInternship}")
+	public @ResponseBody void addUser(@PathVariable Integer idInternship, @RequestBody Utilisateur utilisateur) {
+		Stage s = stageDao.getById(idInternship);
+		stageDao.addUser(s, utilisateur);
+		log.info("Enregistré: {}", s);
 	}
 }
