@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onBeforeMount } from "vue";
+import { reactive, onBeforeMount, onMounted } from "vue";
 
 const props = defineProps(["id"]);
 
@@ -9,10 +9,35 @@ let data = reactive({
   validate: false,
   tuteur: '',
   etudiant: '',
+  stageEnCours: false,
+  soutenance: null,
+  jury: null,
 });
+
 onBeforeMount(() => {
   getInternship();
 });
+
+function addJS() {
+  var toSend = [data.soutenance.toString(), data.jury];
+  const options = {
+    method: "PATCH",
+    body: JSON.stringify(toSend),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  console.log(options);
+  fetch("/api/changeSoutenanceAndJury/" + data.internship.id, options)
+    .then(() => {
+      getInternship();
+      changeState("Soutenance planifiée");
+    })
+    .catch((error) => {
+      console.log(error);
+      alert(error);
+    });
+}
 
 function getInternship() {
   fetch("/api/internshipById/" + props.id)
@@ -29,13 +54,13 @@ function getInternship() {
       console.log(data.internship);
       data.ready = true;
       data.validate =
-        data.internship.etatStage.nom == "Proposition en attente de validation";
+      data.internship.etatStage.nom == "Proposition en attente de validation";
+      data.stageEnCours = data.internship.etatStage.nom == "Étudiant assigné";
     })
     .catch((error) => alert(error));
 }
 
-function validate() {
-  var newName = "Proposition validée";
+function changeState(newName) {
   var newEtatStage = null;
   fetch("/api/etatStageByNom/" + newName)
     .then((response) => {
@@ -54,7 +79,7 @@ function validate() {
       .then(() => {
         getInternship();
       });
-  }, 200);
+  }, 400);
 }
 
 function getUseurs() {
@@ -154,9 +179,34 @@ function getUseurs() {
       <p>Date soutenance : {{ data.internship.soutenance }}</p>
       <p>Jury : {{ data.internship.jury }}</p>
     </div>
-    <button v-if="data.validate" @click="validate()">
+    <button v-if="data.validate" @click="changeState('Proposition validée')">
       Valider la proposition de stage
     </button>
+    <div v-if="data.stageEnCours">
+      <form @submit.prevent="addJS">
+        <div>
+          <label for="jury" class="form-label">Le jury est :</label>
+          <input
+            class="form-control"
+            type="text"
+            required="required"
+            v-model="data.jury"
+          />
+
+          <label for="soutenance" class="form-label">Date de la soutenance :</label>
+          <input
+            class="form-control"
+            required="required"
+            type="Date"
+            v-model="data.soutenance"
+          />
+
+          <button type="submit" class="btn btn-primary">
+            Valider le jury et la date de soutenance
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
