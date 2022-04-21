@@ -7,7 +7,7 @@ let data = reactive({
   internship: null,
   ready: false,
   validate: false,
-  users: [],
+  tutors: [],
 });
 
 onBeforeMount(() => {
@@ -26,7 +26,7 @@ function getUsers() {
       return response.json();
     })
     .then((json) => {
-      data.users = json;
+      data.tutors = json;
     })
     .catch((error) => alert(error));
 }
@@ -129,9 +129,9 @@ function validate() {
         </tbody>
       </table>
     </div>
-    <select>
+    <select v-if="data.validate">
       <option disabled value="0">Choisissez un tuteur</option>
-      <option v-for="user in data.users" :key="user.id" :value="user.id">
+      <option v-for="user in data.tutors" :key="user.id" :value="user.id">
         {{ user.nom }}
       </option>
     </select>
