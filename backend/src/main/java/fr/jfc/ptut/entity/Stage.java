@@ -102,4 +102,9 @@ public class Stage {
     @ManyToOne(optional = false)
     @JsonIgnoreProperties({ "stages" })
     private Entreprise entreprise;
+
+    public void addUtilisateur(Utilisateur u){
+        utilisateurs.add(u);
+        u.getStages().add(this);
+    }
 }

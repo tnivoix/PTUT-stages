@@ -161,7 +161,6 @@ function addInternship() {
       "Content-Type": "application/json",
     },
   };
-  console;
   fetch("/api/stages", options)
     .then((response) => {
       if (!response.ok) {
