@@ -18,8 +18,9 @@
       <router-link to="/signup">Inscription</router-link> |
       <router-link to="/signin">Connexion</router-link> |
       <router-link to="/about">About</router-link>
-      <router-view />
     </div>
+      <router-view />
+
   </div>
 </template>
 
@@ -34,6 +35,9 @@
 
 #nav {
   padding: 30px;
+  border:solid;
+  background-color:  rgb(132, 159, 210);
+  z-index: 1;
 }
 
 #nav a {
@@ -42,6 +46,6 @@
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color:  rgb(57, 97, 172);
 }
 </style>
