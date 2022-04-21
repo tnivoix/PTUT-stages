@@ -185,7 +185,7 @@ public class RestController {
 	@GetMapping(path = "entrepriseById/{id}") 
 	public @ResponseBody Entreprise findEntrepriseById(@PathVariable Integer id) {
 		log.info("Renvoie une entreprise");
-		return entrepriseDao.getById(id);
+		return entrepriseDao.findById(id).get();
 	}
 
 	/**

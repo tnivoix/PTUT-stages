@@ -12,7 +12,6 @@ class AuthService {
             .then((response) => {
                 Promise.resolve(response.json()).then((value) => {
                     if (value.accessToken) {
-                        console.log(value);
                         localStorage.setItem('user', JSON.stringify(value));
                     }
                 });

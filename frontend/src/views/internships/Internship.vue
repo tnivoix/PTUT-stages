@@ -57,7 +57,7 @@ function validate() {
       .then(() => {
         getInternship();
       });
-  }, 200);
+  }, 400);
 }
 </script>
 

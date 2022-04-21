@@ -1,102 +1,109 @@
 <template>
-  <h1>Ajouter un stage</h1>
-  <p>Tous les champs doivent être remplis.</p>
-  <div class="container mt-3">
-    <form @submit.prevent="addInternship">
-      <div class="form-group">
-        <label for="entreprise">Entreprise : (sélectionnez)</label>
-        <select id="selectEntreprise" class="form-control" required="required" v-model="data.internship.entreprise">
-          <option disabled value="0">Choisissez une entreprise</option>
-          <option v-for="entreprise in data.allEntreprises" :key="entreprise.id" :value="entreprise._links.self.href">
-            {{ entreprise.nom }}
-          </option>
-        </select>
-      </div>
-      <label class="form-label">Si l'entreprise n'est pas dans la liste, veuillez cliquer afin de créer
-        l'entreprise
-      </label>
-      <button id="togg1" type="button">Créer une nouvelle entreprise</button>
-      <div id="d1" hidden>
-        <CompanyForm @companyAdded="refreshCompanies" />
-      </div>
-      <div class="mb-3">
-        <label for="anneeEtude" class="form-label">Année d'étude :</label>
-        <input class="form-control" required="required" type="number" v-model="data.internship.anneeEtude" />
-      </div>
-      <div class="mb-3">
-        <label for="adresse" class="form-label">Adresse :</label>
-        <input class="form-control" required="required" v-model="data.internship.adresse" />
-      </div>
-      <div class="mb-3">
-        <label for="ville" class="form-label">Ville :</label>
-        <input class="form-control" required="required" v-model="data.internship.ville" />
-      </div>
-      <div class="mb-3">
-        <label for="codePostal" class="form-label">Code Postal :</label>
-        <input class="form-control" required="required" v-model="data.internship.codePostal" />
-      </div>
-      <div class="mb-3">
-        <label for="pays" class="form-label">Pays :</label>
-        <input class="form-control" required="required" v-model="data.internship.pays" />
-      </div>
-      <div class="mb-3">
-        <label for="contexte" class="form-label">Contexte :</label>
-        <input class="form-control" required="required" v-model="data.internship.contexte" />
-      </div>
-      <div class="mb-3">
-        <label for="sujet" class="form-label">Sujet :</label>
-        <input class="form-control" required="required" v-model="data.internship.sujet" />
-      </div>
-      <div class="mb-3">
-        <label for="details" class="form-label">Détails :</label>
-        <input class="form-control" required="required" v-model="data.internship.details" />
-      </div>
-      <div class="mb-3">
-        <label for="activites" class="form-label">Activités :</label>
-        <input class="form-control" required="required" v-model="data.internship.activites" />
-      </div>
-      <div class="mb-3">
-        <label for="competences" class="form-label">Compétences :</label>
-        <input class="form-control" required="required" v-model="data.internship.competences" />
-      </div>
-      <div class="mb-3">
-        <label for="dateDebut" class="form-label">Date de début :</label>
-        <input class="form-control" required="required" type="date" v-model="data.internship.dateDebut" />
-      </div>
-      <div class="mb-3">
-        <label for="duree" class="form-label">Durée : (nombre de semaines)</label>
-        <input class="form-control" required="required" type="number" v-model="data.internship.duree" />
-      </div>
-      <div class="mb-3">
-        <label for="remuneration" class="form-label">Rémunération :</label>
-        <input class="form-control" required="required" type="number" step="0.01"
-          v-model="data.internship.remuneration" />
-      </div>
-      <div class="mb-3">
-        <label for="service" class="form-label">Service :</label>
-        <input class="form-control" required="required" v-model="data.internship.service" />
-      </div>
-      <div class="mb-3">
-        <label for="horaires" class="form-label">Horaires :</label>
-        <input class="form-control" required="required" v-model="data.internship.horaires" />
-      </div>
-      <div class="mb-3">
-        <label for="maitreDeStage" class="form-label">Maitre de stage :</label>
-        <input class="form-control" required="required" v-model="data.internship.maitreDeStage" />
-      </div>
-      <div class="mb-3">
-        <label for="fonction" class="form-label">Fonction :</label>
-        <input class="form-control" required="required" v-model="data.internship.fonction" />
-      </div>
-      <button type="submit" class="btn btn-primary">Ajouter le stage</button>
-      <input type="reset" value="Reset" />
-    </form>
+  <div v-if="data.allowed">
+    <h1>Ajouter un stage</h1>
+    <p>Tous les champs doivent être remplis.</p>
+    <div class="container mt-3">
+      <form @submit.prevent="addInternship">
+        <div class="form-group">
+          <label for="entreprise">Entreprise : (sélectionnez)</label>
+          <select id="selectEntreprise" class="form-control" required="required" v-model="data.internship.entreprise">
+            <option disabled value="0">Choisissez une entreprise</option>
+            <option v-for="entreprise in data.allEntreprises" :key="entreprise.id" :value="entreprise._links.self.href">
+              {{ entreprise.nom }}
+            </option>
+          </select>
+        </div>
+        <label class="form-label">Si l'entreprise n'est pas dans la liste, veuillez cliquer afin de créer
+          l'entreprise
+        </label>
+        <button id="togg1" type="button">Créer une nouvelle entreprise</button>
+        <div id="d1" hidden>
+          <CompanyForm @companyAdded="refreshCompanies" />
+        </div>
+        <div class="mb-3">
+          <label for="anneeEtude" class="form-label">Année d'étude :</label>
+          <input class="form-control" required="required" type="number" v-model="data.internship.anneeEtude" />
+        </div>
+        <div class="mb-3">
+          <label for="adresse" class="form-label">Adresse :</label>
+          <input class="form-control" required="required" v-model="data.internship.adresse" />
+        </div>
+        <div class="mb-3">
+          <label for="ville" class="form-label">Ville :</label>
+          <input class="form-control" required="required" v-model="data.internship.ville" />
+        </div>
+        <div class="mb-3">
+          <label for="codePostal" class="form-label">Code Postal :</label>
+          <input class="form-control" required="required" v-model="data.internship.codePostal" />
+        </div>
+        <div class="mb-3">
+          <label for="pays" class="form-label">Pays :</label>
+          <input class="form-control" required="required" v-model="data.internship.pays" />
+        </div>
+        <div class="mb-3">
+          <label for="contexte" class="form-label">Contexte :</label>
+          <input class="form-control" required="required" v-model="data.internship.contexte" />
+        </div>
+        <div class="mb-3">
+          <label for="sujet" class="form-label">Sujet :</label>
+          <input class="form-control" required="required" v-model="data.internship.sujet" />
+        </div>
+        <div class="mb-3">
+          <label for="details" class="form-label">Détails :</label>
+          <input class="form-control" required="required" v-model="data.internship.details" />
+        </div>
+        <div class="mb-3">
+          <label for="activites" class="form-label">Activités :</label>
+          <input class="form-control" required="required" v-model="data.internship.activites" />
+        </div>
+        <div class="mb-3">
+          <label for="competences" class="form-label">Compétences :</label>
+          <input class="form-control" required="required" v-model="data.internship.competences" />
+        </div>
+        <div class="mb-3">
+          <label for="dateDebut" class="form-label">Date de début :</label>
+          <input class="form-control" required="required" type="date" v-model="data.internship.dateDebut" />
+        </div>
+        <div class="mb-3">
+          <label for="duree" class="form-label">Durée : (nombre de semaines)</label>
+          <input class="form-control" required="required" type="number" v-model="data.internship.duree" />
+        </div>
+        <div class="mb-3">
+          <label for="remuneration" class="form-label">Rémunération :</label>
+          <input class="form-control" required="required" type="number" step="0.01"
+            v-model="data.internship.remuneration" />
+        </div>
+        <div class="mb-3">
+          <label for="service" class="form-label">Service :</label>
+          <input class="form-control" required="required" v-model="data.internship.service" />
+        </div>
+        <div class="mb-3">
+          <label for="horaires" class="form-label">Horaires :</label>
+          <input class="form-control" required="required" v-model="data.internship.horaires" />
+        </div>
+        <div class="mb-3">
+          <label for="maitreDeStage" class="form-label">Maitre de stage :</label>
+          <input class="form-control" required="required" v-model="data.internship.maitreDeStage" />
+        </div>
+        <div class="mb-3">
+          <label for="fonction" class="form-label">Fonction :</label>
+          <input class="form-control" required="required" v-model="data.internship.fonction" />
+        </div>
+        <button type="submit" class="btn btn-primary">Ajouter le stage</button>
+        <input type="reset" value="Reset" />
+      </form>
+    </div>
   </div>
+  <div v-else>
+    Vous n'êtes pas autorisé à accéder à cette page.
+  </div>
+
 </template>
 
 <script setup>
 import { reactive, onMounted } from "vue";
 import CompanyForm from "@/components/CompanyForm.vue";
+import UserService from '@/services/user.service';
 
 
 const emptyInternship = {
@@ -125,6 +132,7 @@ const emptyInternship = {
 const data = reactive({
   allEntreprises: [],
   internship: { ...emptyInternship },
+  allowed: false
 });
 
 function fetchEntreprises() {
@@ -139,7 +147,7 @@ function fetchEntreprises() {
 function refreshCompanies() {
   fetchEntreprises();
   document.getElementById("d1").hidden = true;
-  setTimeout(function () { document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value }, 150);
+  setTimeout(function () { document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value }, 400);
 }
 
 function addInternship() {
@@ -159,7 +167,7 @@ function addInternship() {
       return response.json();
     })
     .then((json) => {
-      console.log("Internship "+data.internship.id+" added");
+      console.log("Internship " + data.internship.id + " added");
       data.internship = { ...emptyInternship }; // On réinitialise le formulaire
     })
     .catch((error) => {
@@ -179,6 +187,32 @@ function initEntrepriseForm() {
 
 onMounted(() => {
   fetchEntreprises(); // On récupère les entreprises (pour le sélecteur d'entreprise)
-  initEntrepriseForm();
+  if (data.allowed) {
+    initEntrepriseForm();
+  }
 });
+
+function test() {
+  var resp = false;
+  var student = false;
+  UserService.getRespBoard().then(
+    response => {
+      if (response.ok) {
+        resp = true;
+      }
+    }
+  )
+  UserService.getStudentBoard().then(
+    response => {
+      if (response.ok) {
+        student = true;
+      }
+    }
+  )
+  setTimeout(() => {
+    data.allowed = resp || student;
+  }, 400);
+}
+
+test();
 </script>

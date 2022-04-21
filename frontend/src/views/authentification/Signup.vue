@@ -75,6 +75,9 @@ export default {
       this.$store.dispatch('auth/register', this.user).then(
         (data) => {
           this.successful = true;
+          setTimeout(() => {
+            this.$router.push('/profile');
+          }, 400);
         },
         error => {
           this.successful = false;
@@ -83,10 +86,10 @@ export default {
     },
     getRoles() {
       fetch("api/roles")
-      .then((response) => response.json())
-      .then((json) => {
-        this.allRoles = json._embedded.roles;
-      });
+        .then((response) => response.json())
+        .then((json) => {
+          this.allRoles = json._embedded.roles;
+        });
     }
   }
 };
