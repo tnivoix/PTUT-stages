@@ -6,29 +6,34 @@ const props = defineProps(["id"]);
 let data = reactive({
   internship: null,
   ready: false,
-  validate: false,
-  tutors: [],
+  stageEnCours: false,
+  soutenance: null,
+  jury: null,
 });
 
 onBeforeMount(() => {
   getInternship();
 });
 
-onMounted(getUsers);
-
-function getUsers() {
-  fetch("/api/allTutors")
-    .then((response) => {
-      if (!response.ok) {
-        // status != 2XX
-        throw new Error(response.status);
-      }
-      return response.json();
+function addJS() {
+  var toSend = [data.soutenance.toString(), data.jury];
+  const options = {
+    method: "PATCH",
+    body: JSON.stringify(toSend),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  console.log(options);
+  fetch("/api/changeSoutenanceAndJury/" + data.internship.id, options)
+    .then(() => {
+      getInternship();
+      changeState("Soutenance planifiée");
     })
-    .then((json) => {
-      data.tutors = json;
-    })
-    .catch((error) => alert(error));
+    .catch((error) => {
+      console.log(error);
+      alert(error);
+    });
 }
 
 function getInternship() {
@@ -44,13 +49,13 @@ function getInternship() {
       data.internship = json;
       data.ready = true;
       data.validate =
-        data.internship.etatStage.nom == "Proposition en attente de validation";
+      data.internship.etatStage.nom == "Proposition en attente de validation";
+      data.stageEnCours = data.internship.etatStage.nom == "Étudiant assigné";
     })
     .catch((error) => alert(error));
 }
 
-function validate() {
-  var newName = "Proposition validée";
+function changeState(newName) {
   var newEtatStage = null;
   fetch("/api/etatStageByNom/" + newName)
     .then((response) => {
@@ -72,11 +77,9 @@ function validate() {
         "Content-Type": "application/json",
       },
     };
-    fetch("/api/changeInternshipState/" + data.internship.id, options)
-      .then(() => {
-        getInternship();
-      }
-    );
+    fetch("/api/changeInternshipState/" + data.internship.id, options).then(() => {
+      getInternship();
+    });
   }, 200);
 }
 </script>
@@ -136,17 +139,35 @@ function validate() {
         </tbody>
       </table>
     </div>
-    <select v-if="data.validate">
-      <option disabled value="0">Choisissez un tuteur</option>
-      <option v-for="user in data.tutors" :key="user.id" :value="user.id">
-        {{ user.nom }}
-      </option>
-    </select>
-    <button v-if="data.validate" @click="validate()">
+    <button v-if="data.validate" @click="changeState('Proposition validée')">
       Valider la proposition de stage
     </button>
+    <div v-if="data.stageEnCours">
+      <form @submit.prevent="addJS">
+        <div>
+          <label for="jury" class="form-label">Le jury est :</label>
+          <input
+            class="form-control"
+            type="text"
+            required="required"
+            v-model="data.jury"
+          />
+
+          <label for="soutenance" class="form-label">Date de la soutenance :</label>
+          <input
+            class="form-control"
+            required="required"
+            type="Date"
+            v-model="data.soutenance"
+          />
+
+          <button type="submit" class="btn btn-primary">
+            Valider le jury et la date de soutenance
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
-<style>
-</style>
+<style></style>

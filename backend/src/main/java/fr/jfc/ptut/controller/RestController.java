@@ -1,6 +1,7 @@
 package fr.jfc.ptut.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,9 +213,10 @@ public class RestController {
 	 * Ajoute une soutenance et un jury au stage
 	 */
 	@PatchMapping(path = "changeSoutenanceAndJury/{idInternship}")
-	public @ResponseBody void changeSoutenanceAndJury(@PathVariable Integer idInternship, @RequestBody Date soutenance, @RequestBody String jury) {
+	public @ResponseBody void changeSoutenanceAndJury(@PathVariable Integer idInternship, @RequestBody String[] data) {
 		Stage s = stageDao.getById(idInternship);
-		stageDao.addSoutenanceAndJury(s, soutenance, jury);
+		Date date = Date.valueOf(data[0]); 
+		stageDao.addSoutenanceAndJury(s, date, data[1]);
 		log.info("Enregistré: {}", s);
 	}
 
