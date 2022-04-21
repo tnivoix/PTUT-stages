@@ -77,10 +77,11 @@ function changeState(newName) {
         "Content-Type": "application/json",
       },
     };
-    fetch("/api/changeInternshipState/" + data.internship.id, options).then(() => {
-      getInternship();
-    });
-  }, 200);
+    fetch("/api/changeInternshipState/" + data.internship.id, options)
+      .then(() => {
+        getInternship();
+      });
+  }, 400);
 }
 </script>
 

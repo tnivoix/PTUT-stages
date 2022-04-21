@@ -136,7 +136,7 @@ public class RestController {
 	@GetMapping(path = "allStudents") 
 	public @ResponseBody List<Utilisateur> allStudents() {
 		log.info("Renvoie la liste des étudiants");
-		return utilisateurDao.findAllByRole("Étudiant");
+		return utilisateurDao.findAllByRole("ROLE_ETUDIANT");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class RestController {
 	@GetMapping(path = "allTutors") 
 	public @ResponseBody List<Utilisateur> allTutors() {
 		log.info("Renvoie la liste des tuteurs");
-		return utilisateurDao.findAllByRole("Tuteur");
+		return utilisateurDao.findAllByRole("ROLE_TUTEUR");
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class RestController {
 	@GetMapping(path = "entrepriseById/{id}") 
 	public @ResponseBody Entreprise findEntrepriseById(@PathVariable Integer id) {
 		log.info("Renvoie une entreprise");
-		return entrepriseDao.getById(id);
+		return entrepriseDao.findById(id).get();
 	}
 
 	/**
