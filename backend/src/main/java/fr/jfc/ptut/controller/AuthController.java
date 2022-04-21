@@ -57,16 +57,17 @@ public class AuthController {
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
-		
 		return ResponseEntity.ok(new JwtResponse(jwt,
 				userDetails.getId(),
 				userDetails.getUsername(),
+				userDetails.getName(),
+				userDetails.getFirstName(),
 				userDetails.getEmail(),
+				userDetails.getNumTel(),
 				roles));
 	}
 
@@ -82,32 +83,13 @@ public class AuthController {
 					.badRequest()
 					.body(new MessageResponse("Error: Email is already in use!"));
 		}
-
-		String strRole = (String) signUpRequest.getRoles().toArray()[0];
-		
-		Role role;
-		if (strRole == "") {
-			Role userRole = roleRepository.findByNom("ROLE_ETUDIANT")
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			role = userRole;
-		} else {
-			switch (strRole) {
-				case "ROLE_RESPONSABLESTAGES":
-					Role respRole = roleRepository.findByNom("ROLE_RESPONSABLESTAGES")
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					role = respRole;
-					break;
-				case "ROLE_TUTEUR":
-					Role tuteurRole = roleRepository.findByNom("ROLE_TUTEUR")
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					role = tuteurRole;
-					break;
-				default:
-					Role etudRole = roleRepository.findByNom("ROLE_ETUDIANT")
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					role = etudRole;
-			}
+		String strRole = "";
+		for (String s : signUpRequest.getRoles()) {
+			strRole = s;
 		}
+
+		Role userRole = roleRepository.findByNom(strRole)
+				.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 		// Create new user's account
 		Utilisateur user = new Utilisateur(
 				signUpRequest.getUsername(),
@@ -116,7 +98,7 @@ public class AuthController {
 				signUpRequest.getName(),
 				signUpRequest.getNumTel(),
 				signUpRequest.getEmail(),
-				role);
+				userRole);
 		userRepository.save(user);
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}

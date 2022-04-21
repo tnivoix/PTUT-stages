@@ -4,6 +4,8 @@ import Home from "@/views/Home.vue";
 
 import Signup from "@/views/authentification/Signup.vue";
 import Signin from "@/views/authentification/Signin.vue";
+import Signout from "@/views/authentification/Signout.vue";
+import Profile from "@/views/authentification/Profile.vue";
 
 import InternshipForm from "@/views/forms/InternshipForm.vue";
 import CompanyForm from "@/views/forms/CompanyForm.vue";
@@ -38,6 +40,16 @@ const routes = [
         path: "/signin",
         name: "Signin",
         component: Signin,
+    },
+    {
+        path: "/signout",
+        name: "Signout",
+        component: Signout,
+    },
+    {
+        path: "/profile",
+        name: "Profile",
+        component: Profile,
     },
     // forms
     {
@@ -129,13 +141,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    const publicPages = ['/login', '/register', '/home'];
+    const publicPages = ['/signin', '/signup', '/signout', '/'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
     // trying to access a restricted page + not logged in
     // redirect to login page
     if (authRequired && !loggedIn) {
-        next('/login');
+        next('/signin');
     } else {
         next();
     }

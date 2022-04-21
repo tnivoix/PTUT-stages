@@ -3,16 +3,19 @@ class AuthService {
     login(user) {
         const options = {
             method: "POST",
-            body: JSON.stringify({ username: user.name, password: user.password }),
+            body: JSON.stringify({ username: user.username, password: user.password }),
             headers: {
                 "Content-Type": "application/json",
             },
         };
         return fetch(API_URL + "signin", options)
             .then((response) => {
-                if (response.data.accessToken) {
-                    localStorage.setItem('user', JSON.stringify(response.data));
-                }
+                Promise.resolve(response.json()).then((value) => {
+                    if (value.accessToken) {
+                        console.log(value);
+                        localStorage.setItem('user', JSON.stringify(value));
+                    }
+                });
                 return response.data;
             })
             .catch((error) => {
@@ -27,7 +30,7 @@ class AuthService {
         const options = {
             method: "POST",
             body: JSON.stringify({
-                username: user.name,
+                username: user.username,
                 password: user.password,
                 email: user.email,
                 name: user.name,
