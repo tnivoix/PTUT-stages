@@ -54,8 +54,10 @@ function addJS() {
   console.log(options);
   fetch("/api/changeSoutenanceAndJury/" + data.internship.id, options)
     .then(() => {
-      getInternship();
       changeState("Soutenance planifiée");
+      setTimeout(() => {
+        getInternship();
+      }, 400);
     })
     .catch((error) => {
       console.log(error);
