@@ -16,12 +16,12 @@ const data = reactive({
 var list = ref(null);
 
 onMounted(() => {
-    if (data.allowed) {
-        setTimeout(() => {
+    setTimeout(() => {
+        if (data.allowed) {
             list.value.data.link = "internshipsByStudent/" + data.student.id;
             list.value.getInternships();
-        }, 400);
-    }
+        }
+    }, 400);
 })
 
 function getStudent() {

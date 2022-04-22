@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, onBeforeMount, onMounted } from "vue";
+import UserService from '@/services/user.service';
 
 const props = defineProps(["id"]);
 
@@ -17,11 +18,23 @@ let data = reactive({
   stageEnCours: false,
   soutenance: null,
   jury: null,
+  resp: false
 });
+
+function test() {
+  UserService.getRespBoard().then(
+    response => {
+      if (response.ok) {
+        data.resp = true;
+      }
+    }
+  )
+}
+
+test();
 
 onBeforeMount(() => {
   getInternship();
-  getInternshipAssign();
 });
 
 onMounted(() => {
@@ -147,20 +160,19 @@ function assign() {
     },
   };
   fetch("/api/addUser/" + data.internship.id, options)
-    .then(() => {
-      getInternship();
-    });
+    .then(() => {});
   fetch("/api/addUser/" + data.internship.id, options2)
     .then(() => {
       getInternship();
     });
+    changeState("Étudiant assigné")
 }
 
 function getUsers() {
   data.internship.utilisateurs.forEach(user => {
-    if (user.role.nom == 'Étudiant') {
+    if (user.role.nom == 'ROLE_ETUDIANT') {
       data.etudiant = user;
-    } else if (user.role.nom == 'Tuteur') {
+    } else if (user.role.nom == 'ROLE_TUTEUR') {
       data.tuteur = user;
     }
   });
@@ -201,10 +213,10 @@ function getUsers() {
       <p>Date soutenance : {{ data.internship.soutenance }}</p>
       <p>Jury : {{ data.internship.jury }}</p>
     </div>
-    <button v-if="data.validate" @click="changeState('Proposition validée')">
+    <button v-if="data.validate && data.resp" @click="changeState('Proposition validée')">
       Valider la proposition de stage
     </button>
-    <div v-if="data.assign">
+    <div v-if="data.assign && data.resp">
       <select id="etudiantSelector">
         <option disabled value="0">Choisissez un etudiant</option>
         <option v-for="student in data.students" :key="student.id" :value="student.id">
@@ -221,7 +233,7 @@ function getUsers() {
         Assigner l'étudiant et le tuteur
       </button>
     </div>
-    <div v-if="data.stageEnCours">
+    <div v-if="data.stageEnCours && data.resp">
       <form @submit.prevent="addJS">
         <div>
           <label for="jury" class="form-label">Le jury est :</label>

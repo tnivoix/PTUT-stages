@@ -13,17 +13,17 @@ INSERT INTO ETAT_STAGE(nom) VALUES
     ('Convention signée par l''étudiant'),
     ('Soutenance planifiée'),
     ('Stage terminé');
-
+/*MDP : supertoto, superbinbin, superclecle, superdede, superpopo, superriri, superbaba, superlolo, superpinpin*/
 INSERT INTO UTILISATEUR(identifiant, mot_de_passe, prenom, nom, num_tel, email, role_id) VALUES
-    ('tnivoix', 'supertoto', 'Thomas', 'Nivoix', '0642424242', 'thomas.nivoix@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
-    ('glasservarie', 'superbinbin', 'Gabin', 'Lasservarie', '0643434343', 'gabin.lasservarie@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
-    ('cbourdarias', 'superclecle', 'Cléa', 'Bourdarias', '0644444444', 'clea.bourdarias@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
-    ('dkeskin', 'superdede', 'Defne', 'Keskin', '0645454545', 'defne.keskin@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
-    ('pchaubet', 'superpopo', 'Paul', 'Chaubet', '0646464646', 'paul.chaubet@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
-    ('ecarayol', 'superriri', 'Éric', 'Carayol', '0647474747', 'eric.carayol@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_RESPONSABLESTAGES'),
-    ('rbastide', 'superbaba', 'Rémi', 'Bastide', '0648484848', 'remi.bastide@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_TUTEUR'),
-    ('lgregoire', 'superlolo', 'Laurent', 'Gregoire', '0649494949', 'laurent.gregoire@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_TUTEUR'),
-    ('hpingaud', 'superpinpin', 'Hervé', 'Pingaud', '0650505050', 'herve.pingaud@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_TUTEUR');
+    ('tnivoix', '$2a$12$Ur81/XqeMwSZKjvcKtW7euAQc0m.QLGZU7NkYtyWNSbQteJ0La89q', 'Thomas', 'Nivoix', '0642424242', 'thomas.nivoix@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
+    ('glasservarie', '$2a$12$eCvUkUjWQuoLl0IK/FPi3erPO84OKmICTGKJjfHXyXY3.jscskUyS', 'Gabin', 'Lasservarie', '0643434343', 'gabin.lasservarie@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
+    ('cbourdarias', '$2a$12$2SuMs1NC902.ZXBAlzJUTe8d/pbaJbM.Q1BDIGUMbvgHyTQoDSDKa', 'Cléa', 'Bourdarias', '0644444444', 'clea.bourdarias@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
+    ('dkeskin', '$2a$12$C1.t9ffGwK73MjDpqWixIu8cNvVc99WwU0ju7fEGBDm9ujBpK/IX6', 'Defne', 'Keskin', '0645454545', 'defne.keskin@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
+    ('pchaubet', '$2a$12$0QKG.SbqnhndQhRU8ud2humPJeK7tv58WV7QV7Tc6NLjKXnaGcpq6', 'Paul', 'Chaubet', '0646464646', 'paul.chaubet@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_ETUDIANT'),
+    ('ecarayol', '$2a$12$5IhV0ldc81FTSw0.qWzGQOZrfX95cJyJbVjMnjb3ewyuA1wH6rqWq', 'Éric', 'Carayol', '0647474747', 'eric.carayol@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_RESPONSABLESTAGES'),
+    ('rbastide', '$2a$12$RTHRQsfZDynNYTJM4QAh/eyNQMU5w/QmTANT/Lt7EpAY1w1Wou./C', 'Rémi', 'Bastide', '0648484848', 'remi.bastide@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_TUTEUR'),
+    ('lgregoire', '$2a$12$ynOO9pvBm9Qe8tzV77Ev2ug71w6f1cw7/EOJBtKufXCHoqbpBUuR2', 'Laurent', 'Gregoire', '0649494949', 'laurent.gregoire@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_TUTEUR'),
+    ('hpingaud', '$2a$12$pyNMIbHztynrEo/M5AGEv.1XgLcPn/DOvIIv/8TnUoxEhc3SnO7Ea', 'Hervé', 'Pingaud', '0650505050', 'herve.pingaud@gmail.com', SELECT id FROM ROLE WHERE nom = 'ROLE_TUTEUR');
 
 INSERT INTO ENTREPRISE(nom, num_tel, email, secteur_activite) VALUES
     ('Ubisoft', '0742424242', 'ubisoft@gmail.com', 'Jeux vidéo'),

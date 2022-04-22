@@ -1,7 +1,6 @@
 package fr.jfc.ptut.controller;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -204,7 +202,7 @@ public class RestController {
 	 */
 	@PatchMapping(path = "changeInternshipState/{idInternship}")
 	public @ResponseBody void changeInternshipState(@PathVariable Integer idInternship, @RequestBody EtatStage state) {
-		Stage s = stageDao.getById(idInternship);
+		Stage s = stageDao.findById(idInternship).get();
 		stageDao.changeInternshipState(s, state);
 		log.info("Enregistré: {}", s);
 	}
@@ -214,7 +212,7 @@ public class RestController {
 	 */
 	@PatchMapping(path = "changeSoutenanceAndJury/{idInternship}")
 	public @ResponseBody void changeSoutenanceAndJury(@PathVariable Integer idInternship, @RequestBody String[] data) {
-		Stage s = stageDao.getById(idInternship);
+		Stage s = stageDao.findById(idInternship).get();
 		Date date = Date.valueOf(data[0]); 
 		stageDao.addSoutenanceAndJury(s, date, data[1]);
 		log.info("Enregistré: {}", s);
@@ -224,9 +222,10 @@ public class RestController {
 	 * Ajoute un utilisateur
 	 */
 	@PatchMapping(path = "addUser/{idInternship}")
-	public @ResponseBody void addUser(@PathVariable Integer idInternship, @RequestBody Utilisateur utilisateur) {
-		Stage s = stageDao.getById(idInternship);
-		stageDao.addUser(s, utilisateur);
+	public @ResponseBody void addUser(@PathVariable Integer idInternship, @RequestBody Integer utilisateurId) {
+		Stage s = stageDao.findById(idInternship).get();
+		Utilisateur u = utilisateurDao.findById(utilisateurId).get();
+		stageDao.addUser(s, u);
 		log.info("Enregistré: {}", s);
 	}
 }

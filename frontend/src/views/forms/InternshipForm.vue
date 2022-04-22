@@ -86,6 +86,15 @@
           <input class="form-control" required="required" v-model="data.internship.maitreDeStage" />
         </div>
         <div class="mb-3">
+          <label for="email" class="form-label">Email du maitre de stage :</label>
+          <input class="form-control" required="required" type="email" v-model="data.internship.email" />
+        </div>
+        <div class="mb-3">
+          <label for="numTel" class="form-label">NumTel du maitre de stage :</label>
+          <input class="form-control" type="tel" pattern="[00-99]{2}[00-99]{2}[00-99]{2}[00-99]{2}[0-99]{2}" required="required" v-model="data.internship.numTel" />
+          <small>Format: 0123456789</small>
+        </div>
+        <div class="mb-3">
           <label for="fonction" class="form-label">Fonction :</label>
           <input class="form-control" required="required" v-model="data.internship.fonction" />
         </div>

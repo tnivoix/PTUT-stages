@@ -1,5 +1,4 @@
 <script setup>
-import { reactive, onBeforeMount, onMounted } from "vue";
 import InternshipsList from "@/components/InternshipsList.vue";
 import UserService from '@/services/user.service';
 import { reactive } from 'vue';

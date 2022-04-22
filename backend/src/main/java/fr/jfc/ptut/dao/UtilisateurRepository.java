@@ -33,7 +33,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
     }
 
     default List<Stage> internshipsByStudent(int idStudent) {
-        if (findById(idStudent).get().getRole().getNom().equals("Étudiant")) {
+        if (findById(idStudent).get().getRole().getNom().equals("ROLE_ETUDIANT")) {
             return internshipsByUser(idStudent);
         } else {
             throw new IllegalArgumentException("Cet utilisateur n'est pas un étudiant");
@@ -41,7 +41,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
     }
 
     default List<Stage> internshipsByTutor(int idTutor) {
-        if (findById(idTutor).get().getRole().getNom().equals("Tuteur")) {
+        if (findById(idTutor).get().getRole().getNom().equals("ROLE_TUTEUR")) {
             return internshipsByUser(idTutor);
         } else {
             throw new IllegalArgumentException("Cet utilisateur n'est pas un tuteur");
