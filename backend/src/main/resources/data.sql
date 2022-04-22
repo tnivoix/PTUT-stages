@@ -41,4 +41,5 @@ INSERT INTO STAGE(annee_etude, adresse, ville, code_postal, pays, contexte, suje
 INSERT INTO STAGE_UTILISATEUR(stage_id, utilisateur_id) VALUES
     (2, SELECT id FROM UTILISATEUR WHERE identifiant = 'glasservarie'),
     (2, SELECT id FROM UTILISATEUR WHERE identifiant = 'hpingaud'),
-    (3, SELECT id FROM UTILISATEUR WHERE identifiant = 'cbourdarias');
+    (3, SELECT id FROM UTILISATEUR WHERE identifiant = 'cbourdarias'),
+    (3, SELECT id FROM UTILISATEUR WHERE identifiant = 'ecarayol');
