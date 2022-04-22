@@ -22,7 +22,7 @@
         </div>
         <div class="mb-3">
           <label for="anneeEtude" class="form-label">Année d'étude :</label>
-          <input class="form-control" required="required" type="number" v-model="data.internship.anneeEtude" />
+          <input class="form-control" min="1" max="5" required="required" type="number" v-model="data.internship.anneeEtude" />
         </div>
         <div class="mb-3">
           <label for="adresse" class="form-label">Adresse :</label>
@@ -158,7 +158,10 @@ function fetchEntreprises() {
 function refreshCompanies() {
   fetchEntreprises();
   document.getElementById("d1").hidden = true;
-  setTimeout(function () { document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value }, 400);
+  setTimeout(function () { 
+    document.getElementById("selectEntreprise").value = document.getElementById("selectEntreprise").lastElementChild.value;
+    data.internship.entreprise = document.getElementById("selectEntreprise").value;
+     }, 400);
 }
 
 function addInternship() {
@@ -198,9 +201,11 @@ function initEntrepriseForm() {
 
 onMounted(() => {
   fetchEntreprises(); // On récupère les entreprises (pour le sélecteur d'entreprise)
-  if (data.allowed) {
+  setTimeout(() => {
+    if (data.allowed) {
     initEntrepriseForm();
   }
+  }, 400);
 });
 
 function test() {
