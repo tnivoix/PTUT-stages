@@ -54,8 +54,10 @@ function addJS() {
   console.log(options);
   fetch("/api/changeSoutenanceAndJury/" + data.internship.id, options)
     .then(() => {
-      getInternship();
       changeState("Soutenance planifiée");
+      setTimeout(() => {
+        getInternship();
+      }, 400);
     })
     .catch((error) => {
       console.log(error);
@@ -207,7 +209,7 @@ function getUsers() {
       <p>Détails : {{ data.internship.details }}</p>
       <p>Activités du stagiaire : {{ data.internship.activites }}</p>
       <p>Compétences requises : {{ data.internship.competences }}</p>
-      <p>Rémunération : {{ data.internship.remuneration }} euros/semaine</p>
+      <p>Rémunération : {{ data.internship.remuneration }} euros/heure</p>
       <br>
       <h3>Evaluation : </h3>
       <p>Date soutenance : {{ data.internship.soutenance }}</p>
