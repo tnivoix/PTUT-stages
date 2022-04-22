@@ -35,7 +35,6 @@ function getUsers() {
       <thead>
         <tr>
           <th>Identifiant</th>
-          <th>MotDePasse</th>
           <th>Prenom</th>  
           <th>Nom</th> 
           <th>NumTel</th>
@@ -46,7 +45,6 @@ function getUsers() {
       <tbody>
         <tr v-for="user in data.users" :key="user.id">
           <td>{{ user.identifiant }}</td>
-          <td>{{ user.motDePasse }}</td>
           <td>{{ user.prenom }}</td>
           <td>{{ user.nom }}</td>
           <td>{{ user.numTel }}</td>
